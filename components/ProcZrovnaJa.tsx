@@ -12,16 +12,22 @@ export default function ProcZrovnaJa() {
             </h2>
             <div className="space-y-5 text-gray-700 text-lg leading-relaxed">
               <p>
-                Velké realitky najímají desítky nových makléřů ročně. Většina z
-                nich má za sebou týdenní školení a Váš byt je možná jejich první
-                nebo druhá zakázka. Učí se na Vás. Když to nevyjde, vy přijdete o
-                čas, peníze a nervy – on jde dál.
+                Velké realitky jsou stroj na nábor nováčků. Každý měsíc do nich
+                nastoupí desítky lidí, kteří „chtějí dělat reality&rdquo;. Týden
+                školení, vizitka, telefon, jdou. První, druhá, třetí zakázka je
+                trénink – a tím tréninkem je často Váš byt. Když to nevyjde, vy
+                přijdete o tři měsíce, dvě snížení ceny a kus nervů. On o nic.
+                Jde dál.
               </p>
               <p>
-                Já dělám reality v Brně a okolí 17 let. Mám za sebou přes 700
-                dokončených prodejů. Pracuji sám, takže za výsledek ručím osobně –
-                nemůžu se schovat za centrálu, juniora ani „kolegyni z marketingu&rdquo;.
-                Když mi zavoláte, ozvu se vám já.
+                Já dělám reality v Brně 17 let, prošel jsem si pozicí vedoucího
+                pobočky velké sítě a vím přesně, jak ten stroj funguje zevnitř.
+                Dnes po velkých zkušenostech pracuji sám. Žádná centrála, žádný
+                junior, kterého „zaučuji na Vašem bytě&rdquo; - a že se to standardně
+                děje, poznáte to tak, že mluví jen jeden ze dvojice. Když mi
+                zavoláte, mluvíte se mnou – a se mnou a mým zkušeným týmem to taky
+                dotáhnete. Za výsledek ručím osobně, protože nemám (a ani nechci
+                se mít) za koho se schovat.
               </p>
             </div>
           </div>

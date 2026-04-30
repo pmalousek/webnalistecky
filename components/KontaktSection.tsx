@@ -5,12 +5,15 @@ export default function KontaktSection() {
     <section id="kontakt" className="bg-soft-bg py-16 px-4">
       <div className="max-w-2xl mx-auto">
         <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
-          Když si chcete o prodeji popovídat
+          Pojďme si o tom v klidu popovídat.
         </h2>
         <p className="text-lg text-gray-700 max-w-prose mb-8">
-          Žádný tlak. Sednu si s Vámi, podívám se na byt, řekneme si, co by se
-          za něj reálně dalo dostat a jak postupovat. Když Vám to nebude sedět,
-          nic se neděje – konzultace je zdarma.
+          Konzultace zdarma znamená přesně to, co píšu: přijdu, podíváme se na
+          byt, řekneme si, co se za něj reálně dá dostat a jakou strategií.
+          Pokud Vám mé pojetí nebude sedět, žádný problém – nemusíme nic
+          podepsat na první schůzce - a vlastně vůbec. Žádný tlak, žádné „ale
+          podepište mi to dnes&rdquo;. Jen rozhovor dvou dospělých lidí, kteří mají
+          stejný cíl.
         </p>
         <ContactForm />
         <div className="mt-8 space-y-1 text-gray-700">

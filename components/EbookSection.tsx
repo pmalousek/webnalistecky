@@ -8,10 +8,11 @@ export default function EbookSection() {
           Než podepíšete cokoli s realitkou, přečtěte si tohle.
         </h2>
         <p className="text-lg text-gray-700 max-w-prose mb-8">
-          Sepsal jsem 6 věcí, které jsem za 17 let v branži viděl zevnitř.
-          Nejsou to senzace ani útok – jen rozdíly, které byste měli vědět,
-          než svěříte největší majetek nezkušenému makléři. Pošlu Vám PDF na
-          e-mail.
+          6 věcí, které jsem za 17 let v branži viděl zevnitř a které Vám velké
+          realitky neřeknou – ne protože by chtěly škodit, ale protože by přišly
+          o byznys. Žádná senzace, žádné konspirace. Jen rozdíly, které byste
+          měli vědět dřív, než svěříte největší majetek své rodiny někomu, kdo
+          se to teprve učí. Pošlu Vám PDF na e-mail.
         </p>
         <EbookForm />
       </div>

@@ -10,9 +10,10 @@ export default function HeroSection() {
               Realitka Vám nemusí vadit. Nováček se učící na&nbsp;Vás ano.
             </h1>
             <p className="text-lg text-gray-700 max-w-prose mb-8">
-              Pokud jste do schránky dostali stovky lístečků „KOUPÍM BYT NA
-              TÉTO ULICI&rdquo; a štve Vás to – jste tu správně. Tady je důvod, proč
-              jsem do Vaší schránky vhodil ten svůj.
+              Desítky lístečků „KOUPÍM BYT NA TÉTO ULICI&rdquo; ve schránce
+              týdně. Většina je od juniorních makléřů, kteří před týdnem nastoupili.
+              Já jdu na to opačně: do schránky Vám hodím lísteček s tím, že Váš byt
+              nekoupím – ale přečtěte si, proč Vám to říkám.
             </p>
             <div className="flex flex-col sm:flex-row gap-3">
               <a
