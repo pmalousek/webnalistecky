@@ -20,7 +20,7 @@ export default function GdprPage() {
               Správce osobních údajů
             </h2>
             <p>
-              Pavel Maloušek, IČO&nbsp;87615614
+              Pavel Maloušek, IČO&nbsp;17288576
               <br />
               Kontakt:{" "}
               <a

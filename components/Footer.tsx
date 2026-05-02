@@ -27,14 +27,16 @@ export default function Footer() {
             realitakbrno.cz
           </a>
           <span aria-hidden="true">·</span>
-          <span>IČ&nbsp;87615614</span>
+          <span>IČ&nbsp;17288576</span>
         </div>
-        <Link
-          href="/zasady-ochrany-osobnich-udaju"
+        <a
+          href="https://www.realitakbrno.cz/gdpr-zpracovani-osobnich-udaju/"
+          target="_blank"
+          rel="noopener noreferrer"
           className="hover:text-ink hover:underline"
         >
           Zásady ochrany osobních údajů
-        </Link>
+        </a>
       </div>
     </footer>
   );
