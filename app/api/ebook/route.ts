@@ -16,7 +16,7 @@ const schema = z.object({
 
 // DŮLEŽITÉ: Doména realitakbrno.cz musí být ověřena v Resend dashboardu.
 // Pro testování bez ověřené domény změňte FROM_EMAIL na "onboarding@resend.dev".
-const FROM_EMAIL = "Pavel Maloušek <pavel@realitakbrno.cz>";
+const FROM_EMAIL = "Pavel Maloušek <pavel@send.realitakbrno.cz>";
 
 export async function POST(req: NextRequest) {
   let body: unknown;
