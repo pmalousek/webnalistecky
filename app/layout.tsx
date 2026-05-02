@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
+import Link from "next/link";
 import "./globals.css";
 
 const montserrat = Montserrat({
@@ -26,6 +27,14 @@ export default function RootLayout({
       <body className="font-sans antialiased bg-white text-gray-900">
         {children}
         <Analytics />
+        <Link
+          href="/verze"
+          className="fixed bottom-3 right-3 text-[10px] text-gray-300 hover:text-gray-500 transition-colors select-none z-50"
+          tabIndex={-1}
+          aria-hidden="true"
+        >
+          VERZE
+        </Link>
       </body>
     </html>
   );

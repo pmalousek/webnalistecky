@@ -26,6 +26,8 @@ export default function Footer() {
           >
             realitakbrno.cz
           </a>
+          <span aria-hidden="true">·</span>
+          <span>IČ&nbsp;87615614</span>
         </div>
         <Link
           href="/zasady-ochrany-osobnich-udaju"
