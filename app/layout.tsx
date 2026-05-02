@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import Link from "next/link";
+import TrackVisit from "@/components/TrackVisit";
 import "./globals.css";
 
 const montserrat = Montserrat({
@@ -26,6 +27,7 @@ export default function RootLayout({
     <html lang="cs" className={montserrat.variable}>
       <body className="font-sans antialiased bg-white text-gray-900">
         {children}
+        <TrackVisit />
         <Analytics />
         <Link
           href="/verze"
