@@ -1,8 +1,15 @@
 import Image from "next/image";
 
+const stats = [
+  { n: "17", l: "let praxe" },
+  { n: "700+", l: "dokončených prodejů" },
+  { n: "27", l: "obcí na jižní Moravě" },
+  { n: "1", l: "makléř – osobní zodpovědnost" },
+];
+
 export default function HeroSection() {
   return (
-    <section className="relative overflow-hidden bg-white pt-16 pb-32 md:pb-44 px-4">
+    <section className="relative overflow-hidden bg-white pt-16 pb-36 md:pb-44 px-4">
       <div className="max-w-4xl mx-auto">
         <div className="flex flex-col-reverse md:flex-row gap-10 items-center">
           <div className="flex-1">
@@ -15,26 +22,55 @@ export default function HeroSection() {
               Já jdu na to opačně: do schránky Vám hodím lísteček s tím, že Váš byt
               nekoupím – ale přečtěte si, proč Vám to říkám.
             </p>
-            <div className="flex flex-col sm:flex-row gap-3">
-              <a
-                href="https://www.realitakbrno.cz"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center px-6 py-3 bg-brand text-white font-medium rounded-none min-h-[48px] hover:bg-brand-dark transition-colors"
-              >
-                Mrkněte na realitakbrno.cz →
-              </a>
+
+            <div className="flex flex-wrap gap-3">
               <a
                 href="tel:+420777759590"
-                className="inline-flex items-center justify-center px-6 py-3 border border-brand text-ink font-medium rounded-none min-h-[48px] hover:bg-gray-100 transition-colors md:hidden"
+                className="inline-flex items-center justify-center px-6 py-3 bg-brand text-white font-medium rounded-none min-h-[48px] hover:bg-brand-dark transition-colors"
               >
                 Zavolat 777&nbsp;759&nbsp;590
               </a>
+              <a
+                href="sms:+420777759590"
+                className="inline-flex items-center justify-center px-6 py-3 border border-brand text-ink font-medium rounded-none min-h-[48px] hover:bg-gray-100 transition-colors"
+              >
+                Napsat SMS
+              </a>
             </div>
-            <p className="mt-6 text-sm text-gray-500">
-              17 let v Brně · 700+ prodejů · Bc. Pavel Maloušek
-            </p>
+
+            <div className="mt-6 grid grid-cols-2 sm:grid-cols-4 gap-3">
+              {stats.map(({ n, l }) => (
+                <div key={l} className="border border-border-line p-3">
+                  <div className="text-2xl font-bold text-brand">{n}</div>
+                  <div className="text-xs text-gray-500 mt-1 leading-snug">{l}</div>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-8 flex">
+              <a
+                href="#cisla"
+                aria-label="Srolovat dolů"
+                className="text-brand/40 hover:text-brand transition-colors animate-bounce"
+              >
+                <svg
+                  width="30"
+                  height="30"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M19 9l-7 7-7-7"
+                  />
+                </svg>
+              </a>
+            </div>
           </div>
+
           <div className="flex-shrink-0 w-[220px] md:w-[260px]">
             <Image
               src="/pavel-foto.jpg"

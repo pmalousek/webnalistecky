@@ -12,6 +12,7 @@ const schema = z.object({
   utm_medium: z.string().optional(),
   utm_campaign: z.string().optional(),
   utm_content: z.string().optional(),
+  name: z.string().optional(),
 });
 
 // DŮLEŽITÉ: Doména realitakbrno.cz musí být ověřena v Resend dashboardu.
@@ -31,7 +32,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: result.error.flatten() }, { status: 422 });
   }
 
-  const { email, marketing, utm_source, utm_content } = result.data;
+  const { email, marketing, utm_source, utm_content, name } = result.data;
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://realitakbrno.cz";
   const ebookPath = process.env.EBOOK_DOWNLOAD_URL ?? "/ebook.pdf";
   const ebookUrl = `${siteUrl}${ebookPath}`;
@@ -85,6 +86,7 @@ realitakbrno.cz`,
       to: notificationEmail,
       subject: `Nový stažený ebook (${email})`,
       text: `Někdo si stáhl ebook.
+Jméno: ${name ?? "neuvedeno"}
 E-mail: ${email}
 Souhlas s marketingem: ${marketing ? "ano" : "ne"}
 UTM source: ${utm_source ?? "–"}

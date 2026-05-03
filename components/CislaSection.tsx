@@ -103,7 +103,7 @@ export default function CislaSection() {
   }, []);
 
   return (
-    <section className="bg-brand-mist py-16 px-4" ref={sectionRef}>
+    <section id="cisla" className="bg-brand-mist py-16 px-4" ref={sectionRef}>
       <div className="max-w-4xl mx-auto">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {stats.map((stat) => (

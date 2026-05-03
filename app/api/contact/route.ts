@@ -16,6 +16,7 @@ const schema = z.object({
   utm_medium: z.string().optional(),
   utm_campaign: z.string().optional(),
   utm_content: z.string().optional(),
+  message: z.string().optional(),
 });
 
 // DŮLEŽITÉ: Doména realitakbrno.cz musí být ověřena v Resend dashboardu.
@@ -35,7 +36,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: result.error.flatten() }, { status: 422 });
   }
 
-  const { name, phone, email, utm_source, utm_content } = result.data;
+  const { name, phone, email, utm_source, utm_content, message } = result.data;
   const notificationEmail =
     process.env.NOTIFICATION_EMAIL ?? "info@realitakbrno.cz";
   const timestamp = new Date().toISOString();
@@ -48,6 +49,7 @@ export async function POST(req: NextRequest) {
       text: `Jméno: ${name}
 Telefon: ${phone}
 E-mail: ${email}
+Zpráva: ${message ?? "–"}
 UTM source: ${utm_source ?? "–"}
 UTM content: ${utm_content ?? "–"}
 Čas: ${timestamp}`,
