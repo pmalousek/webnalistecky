@@ -71,7 +71,7 @@ export default function CallbackForm() {
           autoComplete="tel"
           placeholder="777 123 456"
           {...register("phone")}
-          className="w-full border border-border-line rounded-none px-4 py-3 text-base text-gray-900 focus:outline-none focus:ring-2 focus:ring-brand min-h-[48px]"
+          className="w-full bg-white border border-border-line rounded-none px-4 py-3 text-base text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand min-h-[48px]"
         />
         {errors.phone && (
           <p className="text-red-600 text-xs mt-1" role="alert">
