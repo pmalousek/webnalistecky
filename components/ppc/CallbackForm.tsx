@@ -54,7 +54,7 @@ export default function CallbackForm() {
   if (sent) {
     return (
       <p className="text-brand font-medium py-2">
-        ✓ Číslo přijato — ozvu se do hodiny.
+        ✓ Číslo přijato — ozvu se ještě dnes.
       </p>
     );
   }
@@ -62,7 +62,7 @@ export default function CallbackForm() {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="flex flex-col sm:flex-row gap-2 max-w-sm"
+      className="flex flex-col sm:flex-row gap-2 w-full max-w-md"
       noValidate
     >
       <div className="flex-1">
@@ -71,7 +71,7 @@ export default function CallbackForm() {
           autoComplete="tel"
           placeholder="777 123 456"
           {...register("phone")}
-          className="w-full border border-border-line rounded-none px-3 py-2.5 text-gray-900 focus:outline-none focus:ring-2 focus:ring-brand"
+          className="w-full border border-border-line rounded-none px-4 py-3 text-base text-gray-900 focus:outline-none focus:ring-2 focus:ring-brand min-h-[48px]"
         />
         {errors.phone && (
           <p className="text-red-600 text-xs mt-1" role="alert">

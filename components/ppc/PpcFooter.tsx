@@ -3,7 +3,7 @@ export default function PpcFooter() {
     <footer className="bg-white border-t border-border-line py-6 px-4">
       <div className="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-gray-500 text-xs">
         <div className="flex flex-wrap gap-x-3 gap-y-1 justify-center sm:justify-start">
-          <span>Pavel Maloušek</span>
+          <span>Bc. Pavel Maloušek · PMRE s.r.o.</span>
           <span>·</span>
           <span>IČ&nbsp;17288576</span>
           <span>·</span>

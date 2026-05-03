@@ -15,7 +15,7 @@ export default function PpcFinalCta() {
         </h2>
         <p className="text-brand-mist mb-8 text-lg">
           Přijdu, podívám se na byt, řekneme si reálnou cenu a postup.
-          Nic nepodepisujeme na první schůzce.
+          Nic podepsat na první schůzce nemusíme.
         </p>
         <a
           href={`tel:${TEL}`}

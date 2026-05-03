@@ -16,11 +16,13 @@ export default function PpcHero() {
           <div className="flex-1">
             <h1 className="text-3xl md:text-4xl font-bold text-gray-900 leading-tight mb-5">
               Dostáváte lístečky „Koupím byt na&nbsp;této ulici&rdquo;?
+              <br />
+              <br />
               Většina těch makléřů žádného kupce nemá.
             </h1>
             <p className="text-lg text-gray-600 mb-8 max-w-prose">
-              17 let v&nbsp;Brně. 700+ prodaných bytů. 27 měst na&nbsp;jižní
-              Moravě. Pavel Maloušek.
+              17 let v&nbsp;Brně. 700+ prodaných bytů. 27 měst a obcí na&nbsp;jižní
+              Moravě. Bc. Pavel Maloušek.
             </p>
 
             {/* Primary CTA */}
@@ -42,7 +44,7 @@ export default function PpcHero() {
 
             {/* Secondary: callback form */}
             <p className="text-sm text-gray-500 mb-3">
-              nebo nechte číslo, ozvu se do hodiny
+              nebo nechte číslo, ozvu se ještě dnes
             </p>
             <CallbackForm />
           </div>
@@ -52,14 +54,14 @@ export default function PpcHero() {
           <div className="flex-shrink-0 w-[200px] md:w-[240px]">
             <Image
               src="/pavel-foto.jpg"
-              alt="Pavel Maloušek, realitní makléř Brno"
+              alt="Bc. Pavel Maloušek, realitní makléř Brno"
               width={240}
               height={290}
               priority
               className="w-full h-auto object-cover"
             />
             <p className="text-xs text-gray-400 mt-2 text-center">
-              Pavel Maloušek · Brno
+              Bc. Pavel Maloušek · Brno
             </p>
           </div>
         </div>

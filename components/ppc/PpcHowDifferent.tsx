@@ -1,7 +1,7 @@
 const points = [
   {
     n: "1",
-    title: "Osobní home staging",
+    title: "Profesionální příprava k dosažení nejvyšší ceny",
     text: "Připravím byt na focení a prohlídky. Žádná ‚fotka telefonem'.",
   },
   {
@@ -11,12 +11,12 @@ const points = [
   },
   {
     n: "3",
-    title: "Cenová strategie, ne přecenění",
-    text: "Neřeknu vám cifru, která vás potěší, ale nereálnou. Přecenění zabíjí zakázky.",
+    title: "Cenová strategie, ne slevy",
+    text: "Správná cena hned na začátku. Přecenění vede ke slevám a ztrátě zájmu — tomu předcházíme.",
   },
   {
     n: "4",
-    title: "Žádný junior makléř",
+    title: "Osobní zodpovědnost",
     text: "Jednáte se mnou od začátku do konce. Ne s kolegou, ne s asistentkou.",
   },
 ];

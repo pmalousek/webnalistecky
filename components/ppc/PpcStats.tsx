@@ -6,7 +6,7 @@ const stats = [
   { value: "17", label: "let praxe v Brně a okolí" },
   { value: "700+", label: "dokončených prodejů" },
   { value: "27", label: "měst a obcí na jižní Moravě" },
-  { value: "[DOPLNIT]", label: "průměrná doba prodeje" },
+  { value: "35 dní", label: "průměrná doba prodeje" },
 ];
 
 function useFadeIn(threshold = 0.2) {
