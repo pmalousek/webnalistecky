@@ -1,12 +1,5 @@
 import Image from "next/image";
 
-const stats = [
-  { n: "17", l: "let praxe" },
-  { n: "700+", l: "dokončených prodejů" },
-  { n: "27", l: "obcí na jižní Moravě" },
-  { n: "1", l: "makléř – osobní zodpovědnost" },
-];
-
 export default function HeroSection() {
   return (
     <section className="relative overflow-hidden bg-white pt-16 pb-36 md:pb-44 px-4">
@@ -36,15 +29,6 @@ export default function HeroSection() {
               >
                 Napsat SMS
               </a>
-            </div>
-
-            <div className="mt-6 grid grid-cols-2 sm:grid-cols-4 gap-3">
-              {stats.map(({ n, l }) => (
-                <div key={l} className="border border-border-line p-3">
-                  <div className="text-2xl font-bold text-brand">{n}</div>
-                  <div className="text-xs text-gray-500 mt-1 leading-snug">{l}</div>
-                </div>
-              ))}
             </div>
 
             <div className="mt-8 flex">
