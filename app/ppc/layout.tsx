@@ -67,7 +67,7 @@ export default function PpcLayout({
       {/* Sklik retargeting */}
       <Script id="sklik-pixel" strategy="afterInteractive">
         {`
-          var seznam_retargeting_id = ${TRACKING.SKLIK_CONVERSION_ID};
+          var seznam_retargeting_id = '${TRACKING.SKLIK_CONVERSION_ID}';
           (function(w,d,t,n){w[n]=w[n]||[];w[n].push({id:seznam_retargeting_id});
           var s=d.createElement(t);s.async=!0;s.src='https://c.imedia.cz/js/retargeting.js';
           var f=d.getElementsByTagName(t)[0];f.parentNode.insertBefore(s,f);}
