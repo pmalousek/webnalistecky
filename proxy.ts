@@ -11,7 +11,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 const PPC_PREFIX = "/ppc";
 
-export function middleware(req: NextRequest) {
+export function proxy(req: NextRequest) {
   const host = req.headers.get("host") ?? "";
   const { pathname, searchParams } = req.nextUrl;
 
