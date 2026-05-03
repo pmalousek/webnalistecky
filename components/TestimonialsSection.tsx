@@ -1,3 +1,7 @@
+"use client";
+
+import { useState, useRef } from "react";
+
 const testimonials = [
   {
     text: "Moc děkuji za profesionální spolupráci s makléřem Pavlem Malouškem. Byla jsem velmi spokojena s koupí bytu na Arménské. Kdykoli bylo třeba, hned poradil, vysvětlil i zařídil. Není to vždy samozřejmé – mám zkušenosti i s jinými makléři. Pavel Maloušek je profesionál na svém místě a doporučím ho vždy, kdy bude potřeba.",
@@ -25,34 +29,98 @@ const testimonials = [
   },
 ];
 
+function Card({
+  text,
+  name,
+  city,
+  date,
+}: (typeof testimonials)[number]) {
+  return (
+    <div className="bg-white border border-border-line p-7 flex flex-col h-full">
+      <span
+        className="text-4xl font-serif leading-none text-brand mb-4 select-none"
+        aria-hidden="true"
+      >
+        &ldquo;
+      </span>
+      <p className="text-gray-700 leading-relaxed flex-1">{text}</p>
+      <div className="mt-6 pt-5 border-t border-border-line flex items-end justify-between gap-4">
+        <div>
+          <p className="font-semibold text-ink text-sm">{name}</p>
+          <p className="text-xs text-gray-500">{city}</p>
+        </div>
+        <p className="text-xs text-gray-400 shrink-0">{date}</p>
+      </div>
+    </div>
+  );
+}
+
 export default function TestimonialsSection() {
+  const [current, setCurrent] = useState(0);
+  const touchStartX = useRef<number>(0);
+
+  const prev = () =>
+    setCurrent((c) => (c - 1 + testimonials.length) % testimonials.length);
+  const next = () =>
+    setCurrent((c) => (c + 1) % testimonials.length);
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+  const onTouchEnd = (e: React.TouchEvent) => {
+    const diff = touchStartX.current - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 40) diff > 0 ? next() : prev();
+  };
+
   return (
     <section className="bg-soft-bg py-16 px-4">
       <div className="max-w-4xl mx-auto">
         <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-10">
           Co říkají lidé, kteří prodávali nebo kupovali
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {testimonials.map(({ text, name, city, date }) => (
-            <div
-              key={name}
-              className="bg-white border border-border-line p-7 flex flex-col"
+
+        {/* Mobile carousel */}
+        <div className="md:hidden">
+          <div onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
+            <Card {...testimonials[current]} />
+          </div>
+
+          <div className="flex items-center justify-between mt-6">
+            <button
+              onClick={prev}
+              aria-label="Předchozí reference"
+              className="w-10 h-10 flex items-center justify-center border border-border-line bg-white text-brand hover:bg-brand hover:text-white transition-colors"
             >
-              <span
-                className="text-4xl font-serif leading-none text-brand mb-4 select-none"
-                aria-hidden="true"
-              >
-                &ldquo;
-              </span>
-              <p className="text-gray-700 leading-relaxed flex-1">{text}</p>
-              <div className="mt-6 pt-5 border-t border-border-line flex items-end justify-between gap-4">
-                <div>
-                  <p className="font-semibold text-ink text-sm">{name}</p>
-                  <p className="text-xs text-gray-500">{city}</p>
-                </div>
-                <p className="text-xs text-gray-400 shrink-0">{date}</p>
-              </div>
+              ‹
+            </button>
+
+            <div className="flex gap-2">
+              {testimonials.map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => setCurrent(i)}
+                  aria-label={`Reference ${i + 1}`}
+                  className={`w-2 h-2 rounded-full transition-colors ${
+                    i === current ? "bg-brand" : "bg-border-line"
+                  }`}
+                />
+              ))}
             </div>
+
+            <button
+              onClick={next}
+              aria-label="Další reference"
+              className="w-10 h-10 flex items-center justify-center border border-border-line bg-white text-brand hover:bg-brand hover:text-white transition-colors"
+            >
+              ›
+            </button>
+          </div>
+        </div>
+
+        {/* Desktop grid */}
+        <div className="hidden md:grid grid-cols-2 gap-6">
+          {testimonials.map((t) => (
+            <Card key={t.name} {...t} />
           ))}
         </div>
       </div>
