@@ -1,8 +1,8 @@
 const points = [
   {
     n: "1",
-    title: "Profesionální příprava k dosažení nejvyšší ceny",
-    text: "Připravím byt na focení a prohlídky. Žádná ‚fotka telefonem'.",
+    title: "Příprava bytu před prohlídkou",
+    text: 'Připravím byt na focení a prohlídky. Žádná „fotka telefonem".',
   },
   {
     n: "2",
@@ -16,8 +16,8 @@ const points = [
   },
   {
     n: "4",
-    title: "Osobní zodpovědnost",
-    text: "Jednáte se mnou od začátku do konce. Ne s kolegou, ne s asistentkou.",
+    title: "Moje osobní zodpovědnost",
+    text: "Jednáte se mnou od začátku do konce.\nNe s kolegou, ne s asistentkou.",
   },
 ];
 
@@ -31,12 +31,12 @@ export default function PpcHowDifferent() {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           {points.map(({ n, title, text }) => (
             <div key={n} className="flex gap-5">
-              <span className="text-4xl font-bold text-brand/20 leading-none select-none shrink-0">
+              <span className="text-4xl font-bold text-brand/20 leading-none select-none shrink-0 w-10 text-center">
                 {n}
               </span>
               <div>
                 <h3 className="font-semibold text-gray-900 mb-1">{title}</h3>
-                <p className="text-gray-600 text-sm leading-relaxed">{text}</p>
+                <p className="text-gray-600 text-sm leading-relaxed text-justify whitespace-pre-line">{text}</p>
               </div>
             </div>
           ))}

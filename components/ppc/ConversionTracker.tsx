@@ -21,8 +21,10 @@ export default function ConversionTracker() {
   return null;
 }
 
+export type CtaLocation = "hero" | "final_cta";
+
 /** Call on tel: link click. */
-export function trackPhoneClick() {
+export function trackPhoneClick(location: CtaLocation) {
   if (typeof window === "undefined") return;
 
   // Google Ads conversion
@@ -33,7 +35,7 @@ export function trackPhoneClick() {
   // GA4 event
   window.gtag?.("event", "phone_click", {
     event_category: "engagement",
-    event_label: "ppc_hero",
+    event_label: `ppc_${location}`,
   });
 
   // Meta Pixel
@@ -41,7 +43,7 @@ export function trackPhoneClick() {
 }
 
 /** Call on successful callback form submission. */
-export function trackFormSubmit() {
+export function trackFormSubmit(location: CtaLocation) {
   if (typeof window === "undefined") return;
 
   // Google Ads conversion
@@ -52,7 +54,7 @@ export function trackFormSubmit() {
   // GA4 event
   window.gtag?.("event", "generate_lead", {
     event_category: "engagement",
-    event_label: "callback_form",
+    event_label: `callback_form_${location}`,
   });
 
   // Meta Pixel

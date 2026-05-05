@@ -11,25 +11,61 @@ export default function PpcHero() {
   return (
     <section className="bg-white px-4 pt-14 pb-16">
       <div className="max-w-4xl mx-auto">
-        <div className="flex flex-col-reverse md:flex-row gap-10 items-start">
-          {/* Text */}
-          <div className="flex-1">
-            <h1 className="text-3xl md:text-4xl font-bold text-gray-900 leading-tight mb-5">
-              Dostáváte lístečky „Koupím byt na&nbsp;této ulici&rdquo;?
+        <div className="flex flex-col items-center">
+          {/* 1. Hook (H1 + subheadline) */}
+          <div className="w-full max-w-2xl text-center mb-8">
+            <h1 className="text-3xl md:text-4xl font-bold text-gray-900 leading-tight mb-4">
+              Dostáváte lístečky „Koupím byt na&nbsp;této ulici&ldquo;?
+            </h1>
+            <p className="text-xl md:text-2xl font-semibold text-gray-900 leading-snug text-justify">
+              Všechny jsou od realitních makléřů.
               <br />
               <br />
               Většina těch makléřů žádného kupce nemá.
-            </h1>
-            <p className="text-lg text-gray-600 mb-8 max-w-prose">
-              17 let v&nbsp;Brně. 700+ prodaných bytů. 27 měst a obcí na&nbsp;jižní
-              Moravě. Bc. Pavel Maloušek.
+            </p>
+          </div>
+
+          {/* 2. Photo + caption */}
+          <div className="w-[200px] md:w-[240px]">
+            <Image
+              src="/pavel-foto.jpg"
+              alt="Bc. Pavel Maloušek, realitní makléř Brno"
+              width={240}
+              height={290}
+              quality={60}
+              priority
+              sizes="(max-width: 768px) 200px, 240px"
+              className="w-full h-auto object-cover"
+            />
+            <p className="text-xs text-gray-500 mt-2 text-center">
+              Tohle není fotka z fotobanky.
+              <br />
+              To jsem já.
+            </p>
+          </div>
+
+          {/* 3. Claim */}
+          <div className="text-center mt-6 mb-10">
+            <p className="text-2xl md:text-3xl font-bold text-brand leading-tight">
+              Já vám lhát nebudu.
+            </p>
+          </div>
+
+          {/* 4. Stats + identity + CTA + form */}
+          <div className="w-full max-w-2xl text-center">
+            <p className="text-lg text-gray-600 mb-1 text-justify">
+              17 let v&nbsp;Brně. 700+ prodaných nemovitostí. 27 měst a obcí na&nbsp;jižní
+              Moravě. Jeden realitní makléř.
+            </p>
+            <p className="text-lg text-gray-600 mb-8">
+              Bc. Pavel Maloušek.
             </p>
 
             {/* Primary CTA */}
             <a
               href={`tel:${TEL}`}
-              onClick={() => trackPhoneClick()}
-              className="inline-flex items-center gap-3 px-8 py-4 bg-brand text-white font-bold text-lg rounded-none hover:bg-brand-dark transition-colors min-h-[56px] mb-4"
+              onClick={() => trackPhoneClick("hero")}
+              className="flex sm:inline-flex w-full sm:w-auto items-center justify-center gap-3 px-8 py-4 bg-brand text-white font-bold text-lg rounded-none hover:bg-brand-dark transition-colors min-h-[56px] mb-4 mx-auto"
             >
               <svg
                 width="22"
@@ -46,23 +82,7 @@ export default function PpcHero() {
             <p className="text-sm text-gray-500 mb-3">
               nebo nechte číslo, ozvu se ještě dnes
             </p>
-            <CallbackForm />
-          </div>
-
-          {/* Photo */}
-          {/* TODO: replace with PPC-specific hero photo */}
-          <div className="flex-shrink-0 w-[200px] md:w-[240px]">
-            <Image
-              src="/pavel-foto.jpg"
-              alt="Bc. Pavel Maloušek, realitní makléř Brno"
-              width={240}
-              height={290}
-              priority
-              className="w-full h-auto object-cover"
-            />
-            <p className="text-xs text-gray-400 mt-2 text-center">
-              Bc. Pavel Maloušek · Brno
-            </p>
+            <CallbackForm location="hero" />
           </div>
         </div>
       </div>

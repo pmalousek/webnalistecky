@@ -35,12 +35,12 @@ export default function PpcTestimonials() {
               >
                 &ldquo;
               </span>
-              <p className="text-gray-700 text-sm leading-relaxed flex-1">
+              <p className="text-gray-700 text-base md:text-sm leading-relaxed flex-1 text-justify">
                 {text}
               </p>
               <div className="mt-5 pt-4 border-t border-border-line">
                 <p className="font-semibold text-ink text-sm">{name}</p>
-                <p className="text-xs text-gray-500">{city}</p>
+                <p className="text-xs text-gray-600">{city}</p>
               </div>
             </div>
           ))}

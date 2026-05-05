@@ -67,7 +67,7 @@ function StatCard({
         transition: `opacity 600ms ease ${delay}ms, transform 600ms ease ${delay}ms`,
       }}
     >
-      <div className="text-3xl md:text-4xl font-bold text-brand">{value}</div>
+      <div className="text-2xl md:text-4xl font-bold text-brand leading-tight">{value}</div>
       <div className="text-sm text-gray-500 mt-2 leading-snug">{label}</div>
     </div>
   );
