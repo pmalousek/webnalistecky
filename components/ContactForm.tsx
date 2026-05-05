@@ -86,6 +86,7 @@ export default function ContactForm() {
         <input
           id="contact-phone"
           type="tel"
+          inputMode="tel"
           autoComplete="tel"
           {...register("phone")}
           className="w-full border border-border-line rounded-none px-3 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-brand"
@@ -126,7 +127,7 @@ export default function ContactForm() {
           className="block text-sm font-medium text-gray-700 mb-1"
         >
           Zpráva{" "}
-          <span className="text-gray-400 font-normal">(nepovinné)</span>
+          <span className="text-gray-500 font-normal">(nepovinné)</span>
         </label>
         <textarea
           id="contact-message"
@@ -151,7 +152,7 @@ export default function ContactForm() {
         >
           {isSubmitting ? "Odesílám…" : "Ozvat se mi"}
         </button>
-        <p className="mt-2 text-xs text-gray-400">
+        <p className="mt-2 text-xs text-gray-600">
           Odesláním souhlasíte se zpracováním osobních údajů pro vyřízení
           vašeho dotazu.
         </p>

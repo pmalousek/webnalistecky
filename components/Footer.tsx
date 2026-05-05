@@ -14,7 +14,7 @@ export default function Footer() {
           />
           <div className="flex flex-col leading-tight">
             <span className="font-medium text-ink">Pavel Maloušek</span>
-            <p className="text-xs text-gray-400 italic">Reality s úsměvem</p>
+            <p className="text-xs text-gray-500 italic">Reality s úsměvem</p>
           </div>
           <span aria-hidden="true">·</span>
           <a

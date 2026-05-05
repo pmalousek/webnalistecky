@@ -105,7 +105,7 @@ export default function EbookForm() {
         >
           {isSubmitting ? "Odesílám…" : "Stáhnout ebook zdarma"}
         </button>
-        <p className="mt-2 text-xs text-gray-400">
+        <p className="mt-2 text-xs text-gray-600">
           Odesláním souhlasíte se zpracováním e-mailu za účelem zaslání ebooku.
         </p>
       </div>
