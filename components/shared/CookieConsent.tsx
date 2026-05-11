@@ -32,9 +32,31 @@ export default function CookieConsent() {
     const stored = localStorage.getItem(STORAGE_KEY);
     if (!stored) {
       setVisible(true);
-    } else {
-      applyConsent(JSON.parse(stored) as ConsentChoice);
+      return;
     }
+
+    const consent = JSON.parse(stored) as ConsentChoice;
+
+    // gtag is loaded via Next.js Script strategy="lazyOnload" — initialized
+    // after window.load + requestIdleCallback. Retry applyConsent until
+    // window.gtag is defined (max 5x, 200ms apart = up to 1s total).
+    let attempts = 0;
+    let timeoutId: ReturnType<typeof setTimeout> | null = null;
+
+    const tryApply = () => {
+      if (window.gtag) {
+        applyConsent(consent);
+        return;
+      }
+      if (++attempts < 5) {
+        timeoutId = setTimeout(tryApply, 200);
+      }
+    };
+    tryApply();
+
+    return () => {
+      if (timeoutId) clearTimeout(timeoutId);
+    };
   }, []);
 
   const save = (choice: ConsentChoice) => {
