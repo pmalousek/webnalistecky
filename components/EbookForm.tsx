@@ -59,7 +59,7 @@ export default function EbookForm() {
           type="text"
           autoComplete="name"
           {...register("name")}
-          className="w-full border border-border-line rounded-none px-3 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-brand"
+          className="w-full border border-border-line rounded-none px-4 py-3 text-base text-gray-900 focus:outline-none focus:ring-2 focus:ring-brand min-h-[48px]"
           placeholder="Jan Novák"
         />
         {errors.name && (
@@ -81,7 +81,7 @@ export default function EbookForm() {
           type="email"
           autoComplete="email"
           {...register("email")}
-          className="w-full border border-border-line rounded-none px-3 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-brand"
+          className="w-full border border-border-line rounded-none px-4 py-3 text-base text-gray-900 focus:outline-none focus:ring-2 focus:ring-brand min-h-[48px]"
           placeholder="vas@email.cz"
         />
         {errors.email && (
@@ -105,7 +105,7 @@ export default function EbookForm() {
         >
           {isSubmitting ? "Odesílám…" : "Stáhnout ebook zdarma"}
         </button>
-        <p className="mt-2 text-xs text-gray-400">
+        <p className="mt-2 text-xs text-gray-600">
           Odesláním souhlasíte se zpracováním e-mailu za účelem zaslání ebooku.
         </p>
       </div>

@@ -43,13 +43,13 @@ function Card({
       >
         &ldquo;
       </span>
-      <p className="text-gray-700 leading-relaxed flex-1">{text}</p>
+      <p className="text-gray-700 leading-relaxed flex-1 text-justify">{text}</p>
       <div className="mt-6 pt-5 border-t border-border-line flex items-end justify-between gap-4">
         <div>
           <p className="font-semibold text-ink text-sm">{name}</p>
           <p className="text-xs text-gray-500">{city}</p>
         </div>
-        <p className="text-xs text-gray-400 shrink-0">{date}</p>
+        <p className="text-xs text-gray-500 shrink-0">{date}</p>
       </div>
     </div>
   );

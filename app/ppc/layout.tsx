@@ -6,7 +6,7 @@ import CookieConsent from "@/components/shared/CookieConsent";
 export const metadata: Metadata = {
   title: "Prodej bytu v Brně — Pavel Maloušek, 17 let praxe",
   description:
-    "17 let zkušeností, 700+ prodaných bytů. Žádné lístečky do schránek, žádné callcentrum. Zavolejte přímo Pavlovi.",
+    "17 let zkušeností, 700+ prodaných nemovitostí. Žádné lístečky do schránek, žádné callcentrum. Zavolejte přímo Pavlovi.",
   robots: { index: false, follow: false },
 };
 
@@ -22,7 +22,7 @@ export default function PpcLayout({
        * Defaultně vše denied; CookieConsent client komponent aktualizuje
        * po souhlasu uživatele pomocí gtag('consent', 'update', {...}).
        */}
-      <Script id="gtag-consent-init" strategy="afterInteractive">
+      <Script id="gtag-consent-init" strategy="lazyOnload">
         {`
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
@@ -38,9 +38,9 @@ export default function PpcLayout({
       {/* Google tag (gtag.js) */}
       <Script
         src={`https://www.googletagmanager.com/gtag/js?id=${TRACKING.GA4_MEASUREMENT_ID}`}
-        strategy="afterInteractive"
+        strategy="lazyOnload"
       />
-      <Script id="gtag-config" strategy="afterInteractive">
+      <Script id="gtag-config" strategy="lazyOnload">
         {`
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
@@ -51,7 +51,7 @@ export default function PpcLayout({
       </Script>
 
       {/* Meta Pixel */}
-      <Script id="meta-pixel" strategy="afterInteractive">
+      <Script id="meta-pixel" strategy="lazyOnload">
         {`
           !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){
           n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};
@@ -65,7 +65,7 @@ export default function PpcLayout({
       </Script>
 
       {/* Sklik retargeting */}
-      <Script id="sklik-pixel" strategy="afterInteractive">
+      <Script id="sklik-pixel" strategy="lazyOnload">
         {`
           var seznam_retargeting_id = '${TRACKING.SKLIK_CONVERSION_ID}';
           (function(w,d,t,n){w[n]=w[n]||[];w[n].push({id:seznam_retargeting_id});

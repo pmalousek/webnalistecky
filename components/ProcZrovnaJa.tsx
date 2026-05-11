@@ -4,13 +4,13 @@ export default function ProcZrovnaJa() {
   return (
     <section className="bg-soft-bg py-16 px-4">
       <div className="max-w-4xl mx-auto">
-        <div className="flex flex-col-reverse md:flex-row gap-12 items-start">
+        <div className="flex flex-col-reverse md:flex-row gap-6 md:gap-12 items-start">
           {/* Text – left on desktop, bottom on mobile */}
           <div className="flex-1">
             <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6">
               Proč zrovna já a ne velká realitka?
             </h2>
-            <div className="space-y-5 text-gray-700 text-lg leading-relaxed">
+            <div className="space-y-5 text-gray-700 text-lg leading-relaxed text-justify">
               <p>
                 Velké realitky jsou stroj na nábor nováčků. Každý měsíc do nich
                 nastoupí desítky lidí, kteří „chtějí dělat reality&rdquo;. Týden
@@ -39,6 +39,8 @@ export default function ProcZrovnaJa() {
               alt="Pavel Maloušek při práci s klientem"
               width={480}
               height={600}
+              quality={60}
+              sizes="(max-width: 768px) 100vw, 480px"
               className="w-full h-auto object-cover"
             />
           </div>

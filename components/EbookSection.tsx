@@ -7,7 +7,7 @@ export default function EbookSection() {
         <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
           Než podepíšete cokoli s realitkou, přečtěte si tohle.
         </h2>
-        <p className="text-lg text-gray-700 max-w-prose mb-8">
+        <p className="text-lg text-gray-700 max-w-prose mb-8 text-justify">
           6 věcí, které jsem za 17 let v branži viděl zevnitř a které Vám velké
           realitky neřeknou – ne protože by chtěly škodit, ale protože by přišly
           o byznys. Žádná senzace, žádné konspirace. Jen rozdíly, které byste

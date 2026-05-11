@@ -66,7 +66,7 @@ export default function ContactForm() {
           type="text"
           autoComplete="name"
           {...register("name")}
-          className="w-full border border-border-line rounded-none px-3 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-brand"
+          className="w-full border border-border-line rounded-none px-4 py-3 text-base text-gray-900 focus:outline-none focus:ring-2 focus:ring-brand min-h-[48px]"
           placeholder="Jan Novák"
         />
         {errors.name && (
@@ -86,9 +86,10 @@ export default function ContactForm() {
         <input
           id="contact-phone"
           type="tel"
+          inputMode="tel"
           autoComplete="tel"
           {...register("phone")}
-          className="w-full border border-border-line rounded-none px-3 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-brand"
+          className="w-full border border-border-line rounded-none px-4 py-3 text-base text-gray-900 focus:outline-none focus:ring-2 focus:ring-brand min-h-[48px]"
           placeholder="777 123 456"
         />
         {errors.phone && (
@@ -110,7 +111,7 @@ export default function ContactForm() {
           type="email"
           autoComplete="email"
           {...register("email")}
-          className="w-full border border-border-line rounded-none px-3 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-brand"
+          className="w-full border border-border-line rounded-none px-4 py-3 text-base text-gray-900 focus:outline-none focus:ring-2 focus:ring-brand min-h-[48px]"
           placeholder="vas@email.cz"
         />
         {errors.email && (
@@ -126,13 +127,13 @@ export default function ContactForm() {
           className="block text-sm font-medium text-gray-700 mb-1"
         >
           Zpráva{" "}
-          <span className="text-gray-400 font-normal">(nepovinné)</span>
+          <span className="text-gray-500 font-normal">(nepovinné)</span>
         </label>
         <textarea
           id="contact-message"
           {...register("message")}
           rows={3}
-          className="w-full border border-border-line rounded-none px-3 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-brand resize-none"
+          className="w-full border border-border-line rounded-none px-4 py-3 text-base text-gray-900 focus:outline-none focus:ring-2 focus:ring-brand resize-none"
           placeholder="O čem si chcete popovídat?"
         />
       </div>
@@ -151,7 +152,7 @@ export default function ContactForm() {
         >
           {isSubmitting ? "Odesílám…" : "Ozvat se mi"}
         </button>
-        <p className="mt-2 text-xs text-gray-400">
+        <p className="mt-2 text-xs text-gray-600">
           Odesláním souhlasíte se zpracováním osobních údajů pro vyřízení
           vašeho dotazu.
         </p>

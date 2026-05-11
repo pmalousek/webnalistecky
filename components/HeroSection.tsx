@@ -4,16 +4,20 @@ export default function HeroSection() {
   return (
     <section className="relative overflow-hidden bg-white pt-16 pb-36 md:pb-44 px-4">
       <div className="max-w-4xl mx-auto">
-        <div className="flex flex-col-reverse md:flex-row gap-10 items-center">
+        <div className="flex flex-col-reverse md:flex-row gap-6 md:gap-10 items-center">
           <div className="flex-1">
             <h1 className="text-3xl md:text-4xl font-bold text-gray-900 leading-tight mb-5">
               Realitka Vám nemusí vadit. Nováček se učící na&nbsp;Vás ano.
             </h1>
-            <p className="text-lg text-gray-700 max-w-prose mb-8">
+            <p className="text-lg text-gray-700 max-w-prose mb-6 text-justify">
               Desítky lístečků „KOUPÍM BYT NA TÉTO ULICI&rdquo; ve schránce
               týdně. Většina je od juniorních makléřů, kteří před týdnem nastoupili.
               Já jdu na to opačně: do schránky Vám hodím lísteček s tím, že Váš byt
               nekoupím – ale přečtěte si, proč Vám to říkám.
+            </p>
+
+            <p className="text-xl md:text-2xl font-bold text-brand leading-tight mb-8">
+              Já vám lhát nebudu.
             </p>
 
             <div className="flex flex-wrap gap-3">
@@ -61,7 +65,9 @@ export default function HeroSection() {
               alt="Pavel Maloušek"
               width={260}
               height={310}
+              quality={60}
               priority
+              sizes="(max-width: 768px) 220px, 260px"
               className="object-cover w-full h-auto"
             />
           </div>

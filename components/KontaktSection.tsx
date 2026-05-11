@@ -7,7 +7,7 @@ export default function KontaktSection() {
         <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
           Pojďme si o tom v klidu popovídat.
         </h2>
-        <p className="text-lg text-gray-700 max-w-prose mb-8">
+        <p className="text-lg text-gray-700 max-w-prose mb-8 text-justify">
           Konzultace zdarma znamená přesně to, co píšu: přijdu, podíváme se na
           byt, řekneme si, co se za něj reálně dá dostat a jakou strategií.
           Pokud Vám mé pojetí nebude sedět, žádný problém – nemusíme nic

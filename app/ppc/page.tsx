@@ -17,6 +17,16 @@ export default function PpcPage() {
       <PpcHowDifferent />
       <PpcTestimonials />
       <PpcFinalCta />
+      <section className="bg-white py-10 px-4 text-center">
+        <a
+          href="https://www.google.com/search?q=bc.+pavel+malou%C5%A1ek"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center px-5 py-2 border-2 border-brand text-brand font-semibold text-sm hover:bg-brand hover:text-white transition-colors"
+        >
+          Vygooglujte si mě
+        </a>
+      </section>
       <PpcFooter />
     </main>
   );
