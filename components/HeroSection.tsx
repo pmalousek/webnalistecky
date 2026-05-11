@@ -9,11 +9,15 @@ export default function HeroSection() {
             <h1 className="text-3xl md:text-4xl font-bold text-gray-900 leading-tight mb-5">
               Realitka Vám nemusí vadit. Nováček se učící na&nbsp;Vás ano.
             </h1>
-            <p className="text-lg text-gray-700 max-w-prose mb-8 text-justify">
+            <p className="text-lg text-gray-700 max-w-prose mb-6 text-justify">
               Desítky lístečků „KOUPÍM BYT NA TÉTO ULICI&rdquo; ve schránce
               týdně. Většina je od juniorních makléřů, kteří před týdnem nastoupili.
               Já jdu na to opačně: do schránky Vám hodím lísteček s tím, že Váš byt
               nekoupím – ale přečtěte si, proč Vám to říkám.
+            </p>
+
+            <p className="text-xl md:text-2xl font-bold text-brand leading-tight mb-8">
+              Já vám lhát nebudu.
             </p>
 
             <div className="flex flex-wrap gap-3">
