@@ -52,7 +52,7 @@ export function trackFormSubmit(location: CtaLocation) {
   });
 
   // GA4 event
-  window.gtag?.("event", "generate_lead", {
+  window.gtag?.("event", "qualify_lead", {
     event_category: "engagement",
     event_label: `callback_form_${location}`,
   });
