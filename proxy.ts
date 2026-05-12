@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 
 /**
- * Hostname-based routing:
- *   prodam.nekoupimbyt.cz/*  →  rewrite to /ppc/*
- *   nekoupimbyt.cz/*         →  pass through (existing site)
+ * /ppc routing:
+ *   /ppc/*                     →  serve directly (Next.js)
+ *   any path with ?variant=ppc →  rewrite to /ppc/*
  *
  * Local dev: access /ppc directly (localhost:3000/ppc)
  * or append ?variant=ppc to any URL for a one-request test.
@@ -12,7 +12,6 @@ import { NextRequest, NextResponse } from "next/server";
 const PPC_PREFIX = "/ppc";
 
 export function proxy(req: NextRequest) {
-  const host = req.headers.get("host") ?? "";
   const { pathname, searchParams } = req.nextUrl;
 
   // Already at a /ppc path — let Next.js serve it directly.
@@ -20,9 +19,7 @@ export function proxy(req: NextRequest) {
     return NextResponse.next();
   }
 
-  const isPPC =
-    host.startsWith("prodam.") ||
-    searchParams.get("variant") === "ppc";
+  const isPPC = searchParams.get("variant") === "ppc";
 
   if (isPPC) {
     const url = req.nextUrl.clone();
