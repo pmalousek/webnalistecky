@@ -57,6 +57,9 @@ export function fireLetakLandingEvent(): void {
   if (typeof window === "undefined") return;
   const utmSource = sessionStorage.getItem("utm_source");
   if (utmSource !== "letak") return;
+  // Dedupe per session — sessionStorage clears on tab close, so a new tab
+  // (new touchpoint) fires letak_landing again. Refresh in same tab: skip.
+  if (sessionStorage.getItem("letak_landing_fired") === "true") return;
 
   let attempts = 0;
   const tryFire = () => {
@@ -67,6 +70,7 @@ export function fireLetakLandingEvent(): void {
         medium: sessionStorage.getItem("utm_medium") ?? "",
         traffic_source_type: "letak",
       });
+      sessionStorage.setItem("letak_landing_fired", "true");
       return;
     }
     if (++attempts < 5) {
