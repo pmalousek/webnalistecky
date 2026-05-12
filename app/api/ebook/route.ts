@@ -33,7 +33,7 @@ export async function POST(req: NextRequest) {
   }
 
   const { email, marketing, utm_source, utm_content, name } = result.data;
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://realitakbrno.cz";
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://nekoupimbyt.cz";
   const ebookPath = process.env.EBOOK_DOWNLOAD_URL ?? "/ebook.pdf";
   const ebookUrl = `${siteUrl}${ebookPath}`;
   const notificationEmail =
