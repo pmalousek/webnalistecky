@@ -32,6 +32,7 @@ export default function RootLayout({
         {children}
         <TrackVisit />
         <Analytics />
+        <CookieConsent />
         <Link
           href="/verze"
           className="fixed bottom-3 right-3 text-[10px] text-gray-300 hover:text-gray-500 transition-colors select-none z-50"
