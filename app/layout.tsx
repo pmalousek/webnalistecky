@@ -4,6 +4,7 @@ import { Analytics } from "@vercel/analytics/next";
 import Link from "next/link";
 import TrackVisit from "@/components/TrackVisit";
 import GoogleAnalytics from "@/components/shared/Analytics/GoogleAnalytics";
+import CookieConsent from "@/components/shared/CookieConsent";
 import "./globals.css";
 
 const montserrat = Montserrat({

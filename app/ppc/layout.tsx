@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Script from "next/script";
 import { TRACKING } from "@/lib/tracking-config";
-import CookieConsent from "@/components/shared/CookieConsent";
 
 export const metadata: Metadata = {
   title: "Prodej bytu v Brně — Pavel Maloušek, 17 let praxe",
@@ -45,7 +44,6 @@ export default function PpcLayout({
       </Script>
 
       {children}
-      <CookieConsent />
     </>
   );
 }
