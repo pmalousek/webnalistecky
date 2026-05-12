@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import Script from "next/script";
 import { TRACKING } from "@/lib/tracking-config";
 import { useTrafficSourceType, useUtmParams } from "@/lib/utm";
+import { useConsent } from "@/lib/consent";
 
 declare global {
   interface Window {
@@ -14,12 +15,13 @@ declare global {
 
 /**
  * GA4 + Consent Mode v2 — mounted ONCE in root layout (covers /ppc via nesting).
- * Sets custom dimension `traffic_source_type` per session, retried until
- * gtag is initialized (same pattern as CookieConsent — lazyOnload timing).
+ * gtag-consent-init always renders (default denied state baseline).
+ * gtag.js + gtag-config render ONLY after analytics consent granted.
  */
 export default function GoogleAnalytics() {
   const trafficSourceType = useTrafficSourceType();
   useUtmParams(); // capture URL UTM params to sessionStorage on first mount
+  const { analytics } = useConsent();
 
   useEffect(() => {
     let attempts = 0;
@@ -45,7 +47,7 @@ export default function GoogleAnalytics() {
     <>
       {/*
        * Consent Mode v2 — must initialize BEFORE gtag.js loads.
-       * Default all denied; CookieConsent component updates on user grant.
+       * Default all denied; ConsentProvider updates on user grant.
        */}
       <Script id="gtag-consent-init" strategy="lazyOnload">
         {`
@@ -60,37 +62,41 @@ export default function GoogleAnalytics() {
         `}
       </Script>
 
-      <Script
-        src={`https://www.googletagmanager.com/gtag/js?id=${TRACKING.GA4_MEASUREMENT_ID}`}
-        strategy="lazyOnload"
-      />
+      {analytics && (
+        <>
+          <Script
+            src={`https://www.googletagmanager.com/gtag/js?id=${TRACKING.GA4_MEASUREMENT_ID}`}
+            strategy="lazyOnload"
+          />
 
-      <Script id="gtag-config" strategy="lazyOnload">
-        {`
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
+          <Script id="gtag-config" strategy="lazyOnload">
+            {`
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
 
-          // Determine traffic_source_type at script execution time (browser API).
-          // Order: pathname (/ppc) → URL utm_source=letak → sessionStorage utm_source → 'organic'
-          var __tstPath = window.location.pathname || '';
-          var __tstUrlSrc = new URLSearchParams(window.location.search).get('utm_source');
-          var __tstSessSrc = sessionStorage.getItem('utm_source');
-          var __tstSrc = __tstUrlSrc || __tstSessSrc;
-          var __tst = __tstPath.indexOf('/ppc') === 0
-            ? 'ppc'
-            : (__tstSrc === 'letak' ? 'letak' : 'organic');
+              // Determine traffic_source_type at script execution time (browser API).
+              // Order: pathname (/ppc) → URL utm_source=letak → sessionStorage utm_source → 'organic'
+              var __tstPath = window.location.pathname || '';
+              var __tstUrlSrc = new URLSearchParams(window.location.search).get('utm_source');
+              var __tstSessSrc = sessionStorage.getItem('utm_source');
+              var __tstSrc = __tstUrlSrc || __tstSessSrc;
+              var __tst = __tstPath.indexOf('/ppc') === 0
+                ? 'ppc'
+                : (__tstSrc === 'letak' ? 'letak' : 'organic');
 
-          // Pass traffic_source_type as default config param — propagates to
-          // auto page_view + all subsequent events from this config.
-          // (gtag('set') alone doesn't propagate for event-scoped dimensions.)
-          gtag('config', '${TRACKING.GA4_MEASUREMENT_ID}', {
-            custom_map: { dimension1: 'traffic_source_type' },
-            traffic_source_type: __tst
-          });
-          gtag('config', '${TRACKING.GOOGLE_ADS_ID}');
-        `}
-      </Script>
+              // Pass traffic_source_type as default config param — propagates to
+              // auto page_view + all subsequent events from this config.
+              // (gtag('set') alone doesn't propagate for event-scoped dimensions.)
+              gtag('config', '${TRACKING.GA4_MEASUREMENT_ID}', {
+                custom_map: { dimension1: 'traffic_source_type' },
+                traffic_source_type: __tst
+              });
+              gtag('config', '${TRACKING.GOOGLE_ADS_ID}');
+            `}
+          </Script>
+        </>
+      )}
     </>
   );
 }
