@@ -33,7 +33,7 @@ export default function EbookForm() {
       const res = await fetch("/api/ebook", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...data, gdpr: true, marketing: false, ...utmParams }),
+        body: JSON.stringify({ ...data, gdpr: true, marketing: true, ...utmParams }),
       });
       if (res.ok) {
         router.push("/ebook-odeslan");
@@ -106,7 +106,7 @@ export default function EbookForm() {
           {isSubmitting ? "Odesílám…" : "Stáhnout ebook zdarma"}
         </button>
         <p className="mt-2 text-xs text-gray-600">
-          Odesláním souhlasíte se zpracováním e-mailu za účelem zaslání ebooku.
+          Odesláním souhlasíte se zpracováním e-mailu za účelem zaslání ebooku a následného marketingu.
         </p>
       </div>
     </form>
