@@ -6,8 +6,9 @@ import { fireLetakLandingEvent } from "@/lib/utm";
 const STORAGE_KEY = "cookie_consent_v1";
 
 type ConsentChoice = {
-  marketing: boolean;
   analytics: boolean;
+  ads: boolean;
+  timestamp: number;
 };
 
 declare global {
@@ -16,12 +17,12 @@ declare global {
   }
 }
 
-function applyConsent({ marketing, analytics }: ConsentChoice) {
+function applyConsent({ ads, analytics }: ConsentChoice) {
   if (typeof window === "undefined" || !window.gtag) return;
   window.gtag("consent", "update", {
-    ad_storage: marketing ? "granted" : "denied",
-    ad_user_data: marketing ? "granted" : "denied",
-    ad_personalization: marketing ? "granted" : "denied",
+    ad_storage: ads ? "granted" : "denied",
+    ad_user_data: ads ? "granted" : "denied",
+    ad_personalization: ads ? "granted" : "denied",
     analytics_storage: analytics ? "granted" : "denied",
   });
 }
@@ -36,7 +37,22 @@ export default function CookieConsent() {
       return;
     }
 
-    const consent = JSON.parse(stored) as ConsentChoice;
+    // Validate stored schema. Re-prompt if invalid (e.g. legacy {marketing}).
+    let consent: ConsentChoice;
+    try {
+      const raw = JSON.parse(stored);
+      if (
+        typeof raw?.analytics !== "boolean" ||
+        typeof raw?.ads !== "boolean"
+      ) {
+        setVisible(true);
+        return;
+      }
+      consent = { analytics: raw.analytics, ads: raw.ads, timestamp: raw.timestamp ?? 0 };
+    } catch {
+      setVisible(true);
+      return;
+    }
 
     // gtag is loaded via Next.js Script strategy="lazyOnload" — initialized
     // after window.load + requestIdleCallback. Retry applyConsent until
@@ -61,10 +77,11 @@ export default function CookieConsent() {
     };
   }, []);
 
-  const save = (choice: ConsentChoice) => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(choice));
-    applyConsent(choice);
-    if (choice.analytics) fireLetakLandingEvent();
+  const save = (choice: Omit<ConsentChoice, "timestamp">) => {
+    const full: ConsentChoice = { ...choice, timestamp: Date.now() };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(full));
+    applyConsent(full);
+    if (full.analytics) fireLetakLandingEvent();
     setVisible(false);
   };
 
@@ -87,13 +104,13 @@ export default function CookieConsent() {
         </p>
         <div className="flex gap-3 shrink-0">
           <button
-            onClick={() => save({ marketing: false, analytics: false })}
+            onClick={() => save({ ads: false, analytics: false })}
             className="px-4 py-2 text-sm border border-border-line text-gray-600 hover:bg-soft-bg transition-colors"
           >
             Odmítnout
           </button>
           <button
-            onClick={() => save({ marketing: true, analytics: true })}
+            onClick={() => save({ ads: true, analytics: true })}
             className="px-4 py-2 text-sm bg-brand text-white hover:bg-brand-dark transition-colors"
           >
             Přijmout vše
