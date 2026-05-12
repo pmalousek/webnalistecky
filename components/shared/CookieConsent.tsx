@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { fireLetakLandingEvent } from "@/lib/utm";
 
 const STORAGE_KEY = "cookie_consent_v1";
 
@@ -46,6 +47,7 @@ export default function CookieConsent() {
     const tryApply = () => {
       if (window.gtag) {
         applyConsent(consent);
+        if (consent.analytics) fireLetakLandingEvent();
         return;
       }
       if (++attempts < 5) {
@@ -62,6 +64,7 @@ export default function CookieConsent() {
   const save = (choice: ConsentChoice) => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(choice));
     applyConsent(choice);
+    if (choice.analytics) fireLetakLandingEvent();
     setVisible(false);
   };
 

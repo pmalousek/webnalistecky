@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import Script from "next/script";
 import { TRACKING } from "@/lib/tracking-config";
-import { useTrafficSourceType } from "@/lib/utm";
+import { useTrafficSourceType, useUtmParams } from "@/lib/utm";
 
 declare global {
   interface Window {
@@ -19,6 +19,7 @@ declare global {
  */
 export default function GoogleAnalytics() {
   const trafficSourceType = useTrafficSourceType();
+  useUtmParams(); // capture URL UTM params to sessionStorage on first mount
 
   useEffect(() => {
     let attempts = 0;
