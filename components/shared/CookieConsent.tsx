@@ -79,7 +79,16 @@ export default function CookieConsent() {
 
   const save = (choice: Omit<ConsentChoice, "timestamp">) => {
     const full: ConsentChoice = { ...choice, timestamp: Date.now() };
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(full));
+    // DEBUG (S02D02 Bug 1 diagnostics — remove after root cause confirmed)
+    console.log("[CookieConsent] save() invoked", full);
+    try {
+      const json = JSON.stringify(full);
+      localStorage.setItem(STORAGE_KEY, json);
+      const verify = localStorage.getItem(STORAGE_KEY);
+      console.log("[CookieConsent] setItem ok, verify read:", verify);
+    } catch (e) {
+      console.error("[CookieConsent] setItem failed:", e);
+    }
     applyConsent(full);
     if (full.analytics) fireLetakLandingEvent();
     setVisible(false);

@@ -71,8 +71,7 @@ export default function GoogleAnalytics() {
           function gtag(){dataLayer.push(arguments);}
           gtag('js', new Date());
 
-          // Determine traffic_source_type at script execution time (browser API),
-          // so it's set as default param BEFORE gtag('config') auto-fires page_view.
+          // Determine traffic_source_type at script execution time (browser API).
           // Order: pathname (/ppc) → URL utm_source=letak → sessionStorage utm_source → 'organic'
           var __tstPath = window.location.pathname || '';
           var __tstUrlSrc = new URLSearchParams(window.location.search).get('utm_source');
@@ -81,10 +80,13 @@ export default function GoogleAnalytics() {
           var __tst = __tstPath.indexOf('/ppc') === 0
             ? 'ppc'
             : (__tstSrc === 'letak' ? 'letak' : 'organic');
-          gtag('set', { traffic_source_type: __tst });
 
+          // Pass traffic_source_type as default config param — propagates to
+          // auto page_view + all subsequent events from this config.
+          // (gtag('set') alone doesn't propagate for event-scoped dimensions.)
           gtag('config', '${TRACKING.GA4_MEASUREMENT_ID}', {
-            custom_map: { dimension1: 'traffic_source_type' }
+            custom_map: { dimension1: 'traffic_source_type' },
+            traffic_source_type: __tst
           });
           gtag('config', '${TRACKING.GOOGLE_ADS_ID}');
         `}
