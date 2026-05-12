@@ -17,38 +17,7 @@ export default function PpcLayout({
 }) {
   return (
     <>
-      {/*
-       * Consent Mode v2 — musí se inicializovat PŘED načtením gtag.js.
-       * Defaultně vše denied; CookieConsent client komponent aktualizuje
-       * po souhlasu uživatele pomocí gtag('consent', 'update', {...}).
-       */}
-      <Script id="gtag-consent-init" strategy="lazyOnload">
-        {`
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('consent', 'default', {
-            ad_storage: 'denied',
-            ad_user_data: 'denied',
-            ad_personalization: 'denied',
-            analytics_storage: 'denied'
-          });
-        `}
-      </Script>
-
-      {/* Google tag (gtag.js) */}
-      <Script
-        src={`https://www.googletagmanager.com/gtag/js?id=${TRACKING.GA4_MEASUREMENT_ID}`}
-        strategy="lazyOnload"
-      />
-      <Script id="gtag-config" strategy="lazyOnload">
-        {`
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-          gtag('config', '${TRACKING.GA4_MEASUREMENT_ID}');
-          gtag('config', '${TRACKING.GOOGLE_ADS_ID}');
-        `}
-      </Script>
+      {/* GA4 + Consent Mode v2 are mounted in root layout — covers /ppc via nesting. */}
 
       {/* Meta Pixel */}
       <Script id="meta-pixel" strategy="lazyOnload">

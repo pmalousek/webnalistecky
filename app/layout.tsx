@@ -3,6 +3,7 @@ import { Montserrat } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import Link from "next/link";
 import TrackVisit from "@/components/TrackVisit";
+import GoogleAnalytics from "@/components/shared/Analytics/GoogleAnalytics";
 import "./globals.css";
 
 const montserrat = Montserrat({
@@ -26,6 +27,7 @@ export default function RootLayout({
   return (
     <html lang="cs" className={montserrat.variable}>
       <body className="font-sans antialiased bg-white text-gray-900">
+        <GoogleAnalytics />
         {children}
         <TrackVisit />
         <Analytics />
