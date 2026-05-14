@@ -76,7 +76,13 @@ export default function HeroSection() {
 
       <div className="absolute bottom-0 left-0 right-0 pointer-events-none">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/brno-silueta.svg" alt="" className="w-full h-auto block" />
+        <img
+          src="/brno-silueta.svg"
+          alt=""
+          width={1200}
+          height={120}
+          className="w-full h-auto block"
+        />
       </div>
     </section>
   );
