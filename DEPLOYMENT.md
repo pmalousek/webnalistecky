@@ -1,9 +1,9 @@
-# Deployment — prodam.nekoupimbyt.cz
+# Deployment — nekoupimbyt.cz/ppc
 
 ## 1. Vercel — přidat doménu k projektu
 
 1. Vercel dashboard → projekt **webnalistecky** → záložka **Domains**
-2. Klikni **Add** → zadej `prodam.nekoupimbyt.cz`
+2. Klikni **Add** → zadej `nekoupimbyt.cz/ppc`
 3. Vercel zobrazí požadované DNS záznamy
 
 ## 2. Wedos — CNAME záznam

@@ -72,7 +72,7 @@ export async function POST(req: NextRequest) {
     await getResend().emails.send({
       from: "prodam@send.realitakbrno.cz",
       to: notificationEmail,
-      subject: `Nový lead z prodam.nekoupimbyt.cz — ${phone}`,
+      subject: `Nový lead z nekoupimbyt.cz/ppc — ${phone}`,
       text: `Nový lead z PPC stránky.
 
 Telefon: ${phone}
