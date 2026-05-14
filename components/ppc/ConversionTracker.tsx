@@ -10,6 +10,15 @@ declare global {
   }
 }
 
+// Mirror of useTrafficSourceType (lib/utm.ts) — non-hook variant for
+// imperative event handlers. Keep in sync with hook detection order.
+function getTrafficSourceType(): "ppc" | "letak" | "organic" {
+  if (typeof window === "undefined") return "organic";
+  if (window.location.pathname.startsWith("/ppc")) return "ppc";
+  if (sessionStorage.getItem("utm_source") === "letak") return "letak";
+  return "organic";
+}
+
 /** Fire GA4 + Google Ads pageview on mount. */
 export default function ConversionTracker() {
   useEffect(() => {
@@ -36,6 +45,7 @@ export function trackPhoneClick(location: CtaLocation) {
   window.gtag?.("event", "phone_click", {
     event_category: "engagement",
     event_label: `ppc_${location}`,
+    traffic_source_type: getTrafficSourceType(),
   });
 
   // Meta Pixel
@@ -55,6 +65,7 @@ export function trackFormSubmit(location: CtaLocation) {
   window.gtag?.("event", "qualify_lead", {
     event_category: "engagement",
     event_label: `callback_form_${location}`,
+    traffic_source_type: getTrafficSourceType(),
   });
 
   // Meta Pixel
