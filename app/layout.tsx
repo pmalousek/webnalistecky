@@ -5,6 +5,7 @@ import Link from "next/link";
 import TrackVisit from "@/components/TrackVisit";
 import GoogleAnalytics from "@/components/shared/Analytics/GoogleAnalytics";
 import CookieConsent from "@/components/shared/CookieConsent";
+import { ConsentProvider } from "@/lib/consent";
 import "./globals.css";
 
 const montserrat = Montserrat({
@@ -28,19 +29,21 @@ export default function RootLayout({
   return (
     <html lang="cs" className={montserrat.variable}>
       <body className="font-sans antialiased bg-white text-gray-900">
-        <GoogleAnalytics />
-        {children}
-        <TrackVisit />
-        <Analytics />
-        <CookieConsent />
-        <Link
-          href="/verze"
-          className="fixed bottom-3 right-3 text-[10px] text-gray-300 hover:text-gray-500 transition-colors select-none z-50"
-          tabIndex={-1}
-          aria-hidden="true"
-        >
-          VERZE
-        </Link>
+        <ConsentProvider>
+          <GoogleAnalytics />
+          {children}
+          <TrackVisit />
+          <Analytics />
+          <CookieConsent />
+          <Link
+            href="/verze"
+            className="fixed bottom-3 right-3 text-[10px] text-gray-300 hover:text-gray-500 transition-colors select-none z-50"
+            tabIndex={-1}
+            aria-hidden="true"
+          >
+            VERZE
+          </Link>
+        </ConsentProvider>
       </body>
     </html>
   );
