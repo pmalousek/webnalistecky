@@ -59,3 +59,25 @@ After completing sections 2–3:
 | Date | Auditor | Outcome | Notes |
 |---|---|---|---|
 | (pending) | | | First audit per S03-CO-08b. |
+
+## Test results
+
+### S02N04 verification (PÁ 15. 5. / SO 16. 5. noc)
+
+End-to-end verification after the P0 env naming refactor (`cd490be`).
+
+| Test | Result | Notes |
+|---|---|---|
+| Vercel deploy | ✅ Ready | commit `cd490be`, fresh build (uncheck "Use existing Build Cache") |
+| Console — env vars warnings | ✅ Clean | žádný `[tracking] Google Ads env vars missing` po fix Vercel project link |
+| Network — `js?id=AW-18164838047` loaded | ✅ Real ID | (ne placeholder `AW-XXXXXXXXXX`) |
+| Network — GA4 `page_view` | ✅ Fires | `tid=G-TD4YCWXN88`, `en=page_view` |
+| Network — Google Ads `page_view` | ✅ Fires | `tid=AW-18164838047`, `en=page_view` |
+| Network — `phone_click` conversion | ✅ Fires | `tid=AW-18164838047`, `en=phone_click` + 302 attribution cascade |
+| Network — `qualify_lead` conversion (form submit) | ✅ Fires | `tid=AW-18164838047`, `en=qualify_lead` + 302 attribution cascade |
+| Lighthouse mobile perf (3 runs) | ✅ Median 97 | run1 97, run2 97, run3 98 (≥ 95 cíl). Drop −2 vs. S02N03 baseline 99 = acceptable cost za addition Google Ads gtag.js (~150 kB). |
+
+**Pending (next N blok):**
+- Page engagement handler (scroll 75% / time 60s+) — `NEXT_PUBLIC_GOOGLE_ADS_PAGE_ENGAGEMENT_LABEL` ready in `tracking-config.ts` but no handler wired up.
+- Mapping verify (events → conversion actions in Google Ads dashboard) — after LIVE + 24-48h attribution delay.
+- P2 cleanup decisions: GA4 fallback policy (`G-TD4YCWXN88` hardcoded vs. Vercel env) + `NEXT_PUBLIC_SITE_URL` Shared/project dedup.
