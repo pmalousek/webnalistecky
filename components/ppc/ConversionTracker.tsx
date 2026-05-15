@@ -19,6 +19,23 @@ function getTrafficSourceType(): "ppc" | "letak" | "organic" {
   return "organic";
 }
 
+// Fail-loud: if either env var is unset, skip the Google Ads conversion
+// rather than firing gtag with `undefined/undefined` and silently losing
+// attribution data. Browser console will surface the misconfiguration.
+function fireGoogleAdsConversion() {
+  const id = TRACKING.GOOGLE_ADS_CONVERSION_ID;
+  const label = TRACKING.GOOGLE_ADS_LEAD_LABEL;
+  if (!id || !label) {
+    console.warn(
+      "[tracking] Google Ads env vars missing " +
+        "(NEXT_PUBLIC_GOOGLE_ADS_CONVERSION_ID / NEXT_PUBLIC_GOOGLE_ADS_LEAD_LABEL) — " +
+        "skipping conversion event."
+    );
+    return;
+  }
+  window.gtag?.("event", "conversion", { send_to: `${id}/${label}` });
+}
+
 /** Fire GA4 + Google Ads pageview on mount. */
 export default function ConversionTracker() {
   useEffect(() => {
@@ -36,10 +53,7 @@ export type CtaLocation = "hero" | "final_cta";
 export function trackPhoneClick(location: CtaLocation) {
   if (typeof window === "undefined") return;
 
-  // Google Ads conversion
-  window.gtag?.("event", "conversion", {
-    send_to: `${TRACKING.GOOGLE_ADS_ID}/${TRACKING.GOOGLE_ADS_CONVERSION_LABEL}`,
-  });
+  fireGoogleAdsConversion();
 
   // GA4 event
   window.gtag?.("event", "phone_click", {
@@ -56,10 +70,7 @@ export function trackPhoneClick(location: CtaLocation) {
 export function trackFormSubmit(location: CtaLocation) {
   if (typeof window === "undefined") return;
 
-  // Google Ads conversion
-  window.gtag?.("event", "conversion", {
-    send_to: `${TRACKING.GOOGLE_ADS_ID}/${TRACKING.GOOGLE_ADS_CONVERSION_LABEL}`,
-  });
+  fireGoogleAdsConversion();
 
   // GA4 event
   window.gtag?.("event", "qualify_lead", {

@@ -17,10 +17,11 @@ Source: grep of `process.env.*` across `app/`, `lib/`, plus `.env.local.example`
 | `NEXT_PUBLIC_SITE_URL` | Optional | `https://nekoupimbyt.cz` | Used in `app/api/ebook/route.ts` to build the absolute link inside the delivery email. Fallback is production value — safe. |
 | `EBOOK_DOWNLOAD_URL` | Optional | `/ebook.pdf` | Relative path appended to `NEXT_PUBLIC_SITE_URL`. Fallback is the production path — safe. |
 | `NEXT_PUBLIC_GA4_MEASUREMENT_ID` | Optional | `G-TD4YCWXN88` | GA4 property ID. Fallback is the actual production GA4 ID — safe. |
-| `NEXT_PUBLIC_GOOGLE_ADS_ID` | **Should be set** | `AW-XXXXXXXXXX` (placeholder) | Google Ads conversion ID. Placeholder fallback = ads not yet wired. |
-| `NEXT_PUBLIC_GOOGLE_ADS_CONVERSION_LABEL` | **Should be set** | `XXXXXXXX` (placeholder) | Google Ads conversion label. |
-| `NEXT_PUBLIC_META_PIXEL_ID` | **Should be set** | `XXXXXXXXXX` (placeholder) | Meta Pixel ID for /ppc. |
-| `NEXT_PUBLIC_SKLIK_CONVERSION_ID` | **Should be set** | `XXXXXXX` (placeholder) | Sklik retargeting ID for /ppc. |
+| `NEXT_PUBLIC_GOOGLE_ADS_CONVERSION_ID` | **Required for ads** | none (fail-loud) | Google Ads conversion ID. Unset → conversion events skipped + console warning. |
+| `NEXT_PUBLIC_GOOGLE_ADS_LEAD_LABEL` | **Required for ads** | none (fail-loud) | Google Ads lead conversion label (paired with conversion ID). |
+| `NEXT_PUBLIC_GOOGLE_ADS_PAGE_ENGAGEMENT_LABEL` | Optional | none | Reserved for future page-engagement event (handler not yet implemented). |
+| `NEXT_PUBLIC_META_PIXEL_ID` | Optional | none | Meta Pixel ID for /ppc. Unset → Meta Pixel script not rendered. |
+| `NEXT_PUBLIC_SKLIK_CONVERSION_ID` | Optional | none | Sklik retargeting ID for /ppc. Unset → Sklik script not rendered. |
 
 ## 2. Fallback patterns to look for
 

@@ -51,15 +51,16 @@ Přidej ve Vercelu (Settings → Environment Variables), pokud chybí:
 Soubor `lib/tracking-config.ts` obsahuje placeholdery `XXXXXXXXXX`.
 Vyměň před spuštěním kampaní:
 
-```ts
-export const TRACKING = {
-  GOOGLE_ADS_ID: 'AW-XXXXXXXXXX',          // Google Ads → Nástroje → Konverze
-  GOOGLE_ADS_CONVERSION_LABEL: 'XXXXXXXX', // detail konverze
-  META_PIXEL_ID: 'XXXXXXXXXX',             // Meta Business Suite → Events Manager
-  SKLIK_CONVERSION_ID: 'XXXXXXX',          // Sklik → Konverze
-  GA4_MEASUREMENT_ID: 'G-XXXXXXXXXX',      // GA4 → Admin → Data Streams
-};
-```
+Set these `NEXT_PUBLIC_*` vars in Vercel Project Settings → Environment Variables. They are read in `lib/tracking-config.ts`:
+
+| Vercel env var | Where to get it |
+|---|---|
+| `NEXT_PUBLIC_GOOGLE_ADS_CONVERSION_ID` | Google Ads → Tools → Conversions → conversion detail (`AW-...`) |
+| `NEXT_PUBLIC_GOOGLE_ADS_LEAD_LABEL` | Same conversion detail → conversion label |
+| `NEXT_PUBLIC_GOOGLE_ADS_PAGE_ENGAGEMENT_LABEL` | Optional — page-engagement conversion label (handler TBD) |
+| `NEXT_PUBLIC_META_PIXEL_ID` | Meta Business Suite → Events Manager |
+| `NEXT_PUBLIC_SKLIK_CONVERSION_ID` | Sklik → Konverze |
+| `NEXT_PUBLIC_GA4_MEASUREMENT_ID` | GA4 → Admin → Data Streams (fallback `G-TD4YCWXN88` if unset) |
 
 ## 7. Resend — from adresa pro PPC leady
 

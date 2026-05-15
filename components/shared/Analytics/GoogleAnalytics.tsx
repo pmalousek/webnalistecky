@@ -92,7 +92,11 @@ export default function GoogleAnalytics() {
                 custom_map: { dimension1: 'traffic_source_type' },
                 traffic_source_type: __tst
               });
-              gtag('config', '${TRACKING.GOOGLE_ADS_ID}');
+              ${
+                TRACKING.GOOGLE_ADS_CONVERSION_ID
+                  ? `gtag('config', '${TRACKING.GOOGLE_ADS_CONVERSION_ID}');`
+                  : "/* Google Ads config skipped: NEXT_PUBLIC_GOOGLE_ADS_CONVERSION_ID unset */"
+              }
             `}
           </Script>
         </>
