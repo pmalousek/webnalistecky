@@ -41,7 +41,7 @@ export default function PpcKroky() {
     <section className="px-4 py-10 md:py-14">
       <div className="max-w-container mx-auto">
         <p className="font-plex-mono text-[12px] uppercase tracking-[0.15em] text-dark-secondary mb-3">
-          05
+          07
         </p>
         <h2 className="font-plex-serif text-dark-text text-[clamp(1.9rem,3.5vw,2.6rem)] leading-[1.15] mb-6">
           Co se stane, když teď necháte číslo

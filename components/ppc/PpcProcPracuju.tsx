@@ -9,7 +9,7 @@ export default function PpcProcPracuju() {
           <PaperPasparta />
           <div className="relative z-10">
             <p className="font-plex-mono text-[12px] uppercase tracking-[0.15em] text-paper-secondary mb-3">
-              03
+              05
             </p>
             <h2 className="font-plex-serif text-[clamp(1.9rem,3.8vw,2.8rem)] leading-[1.15] mb-6">
               Proč pracuju takhle

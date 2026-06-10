@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { trackPhoneClick } from "./ConversionTracker";
 import CallbackForm from "./CallbackForm";
 import WhatsAppLink from "./WhatsAppLink";
@@ -16,7 +17,7 @@ export default function PpcZaver() {
         <div className="grid gap-10 md:gap-12 md:grid-cols-2 items-start">
           <div>
             <p className="font-plex-mono text-[12px] uppercase tracking-[0.15em] text-dark-secondary mb-3">
-              08
+              10
             </p>
             <h2 className="font-plex-serif text-dark-text text-[clamp(2rem,4vw,3rem)] leading-[1.1] mb-6">
               Jsem jeden člověk. A&nbsp;je to záměr.
@@ -34,8 +35,19 @@ export default function PpcZaver() {
               Jediné, co riskujete, je, že uslyšíte pravdu.
             </p>
 
-            <div className="mt-10 flex items-end gap-6">
-              {/* podpis.png stále chybí v public/ — viz finální report. */}
+            <div className="mt-10 flex items-end gap-8 flex-wrap">
+              <Image
+                src="/podpis.png"
+                alt="Podpis Pavel Maloušek"
+                width={220}
+                height={90}
+                quality={80}
+                className="h-auto w-[180px] md:w-[220px]"
+                style={{
+                  filter: "invert(1) brightness(0.95)",
+                  mixBlendMode: "screen",
+                }}
+              />
               <Razitko size={130} />
             </div>
           </div>
