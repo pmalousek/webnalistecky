@@ -29,9 +29,14 @@ export default function PpcSliby() {
               </li>
               <li className="flex gap-4">
                 <IconCross className="text-stamp-dark mt-1 shrink-0" />
-                <p className="font-plex-sans text-[17px] md:text-[18px] leading-[1.6] text-dark-text">
-                  <span className="font-semibold">Prodej za týden.</span> Slibovat rychlost dopředu je marketing. Můj průměr je 35 dní — to není slib, to je statistika ze 700 prodejů.
-                </p>
+                <div className="space-y-3">
+                  <p className="font-plex-sans text-[17px] md:text-[18px] leading-[1.6] text-dark-text">
+                    <span className="font-semibold">Prodej za týden.</span> Slibovat rychlost dopředu je marketing. Můj průměr je 35 dní — to není slib, to je statistika ze 700 prodejů.
+                  </p>
+                  <p className="font-plex-sans text-[17px] md:text-[18px] leading-[1.6] text-dark-text">
+                    Pokud byste přesto potřebovali prodat rychle, mám investory, kteří umí nemovitost koupit rychle. Samozřejmě za&nbsp;nižší cenu, ale klidně do&nbsp;dvou dnů. Ale není to to hlavní, co pro&nbsp;klienty dělám.
+                  </p>
+                </div>
               </li>
             </ul>
           </div>
