@@ -47,7 +47,7 @@ export default function ConversionTracker() {
   return null;
 }
 
-export type CtaLocation = "hero" | "final_cta";
+export type CtaLocation = "hero" | "final_cta" | "sticky_bar" | "header";
 
 /** Call on tel: link click. */
 export function trackPhoneClick(location: CtaLocation) {

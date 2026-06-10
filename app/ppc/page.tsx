@@ -1,33 +1,35 @@
+import ConversionTracker from "@/components/ppc/ConversionTracker";
 import PpcHero from "@/components/ppc/PpcHero";
 import PpcStats from "@/components/ppc/PpcStats";
-import PpcWhyListek from "@/components/ppc/PpcWhyListek";
-import PpcHowDifferent from "@/components/ppc/PpcHowDifferent";
+import PpcTriMakleri from "@/components/ppc/PpcTriMakleri";
+import PpcSliby from "@/components/ppc/PpcSliby";
+import PpcProcPracuju from "@/components/ppc/PpcProcPracuju";
+import PpcTriProdeje from "@/components/ppc/PpcTriProdeje";
+import PpcKroky from "@/components/ppc/PpcKroky";
 import PpcTestimonials from "@/components/ppc/PpcTestimonials";
-import PpcFinalCta from "@/components/ppc/PpcFinalCta";
+import PpcFaq from "@/components/ppc/PpcFaq";
+import PpcZaver from "@/components/ppc/PpcZaver";
+import PpcVygooglujte from "@/components/ppc/PpcVygooglujte";
 import PpcFooter from "@/components/ppc/PpcFooter";
-import ConversionTracker from "@/components/ppc/ConversionTracker";
+import PpcStickyBar from "@/components/ppc/PpcStickyBar";
 
 export default function PpcPage() {
   return (
-    <main>
+    <main className="pb-16 md:pb-0">
       <ConversionTracker />
       <PpcHero />
       <PpcStats />
-      <PpcWhyListek />
-      <PpcHowDifferent />
+      <PpcTriMakleri />
+      <PpcSliby />
+      <PpcProcPracuju />
+      <PpcTriProdeje />
+      <PpcKroky />
       <PpcTestimonials />
-      <PpcFinalCta />
-      <section className="bg-white py-10 px-4 text-center">
-        <a
-          href="https://www.google.com/search?q=bc.+pavel+malou%C5%A1ek"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center px-5 py-2 border-2 border-brand text-brand font-semibold text-sm hover:bg-brand hover:text-white transition-colors"
-        >
-          Vygooglujte si mě
-        </a>
-      </section>
+      <PpcFaq />
+      <PpcZaver />
+      <PpcVygooglujte />
       <PpcFooter />
+      <PpcStickyBar />
     </main>
   );
 }

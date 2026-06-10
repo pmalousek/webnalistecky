@@ -12,3 +12,18 @@
     letter-spacing: -0.02em;
   }
 }
+
+@layer utilities {
+  /* PPC offer rebuild — text selection in stamp red on paper, applied site-wide
+     (no other surface uses the stamp tokens, so collision risk is zero). */
+  ::selection {
+    background: #c2362a;
+    color: #f1ebde;
+  }
+
+  /* Tabular figures helper for prices and stats — Plex Mono is already
+     fixed-width but Serif/Sans need this for column-aligned digits. */
+  .nums-tabular {
+    font-variant-numeric: tabular-nums;
+  }
+}
