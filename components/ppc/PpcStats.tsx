@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useInView, useReducedMotion } from "./_anim";
 
 type Stat = {
   value: string;
@@ -16,56 +17,11 @@ const stats: Stat[] = [
   { value: "35 dní", label: "průměrná doba prodeje", countTo: 35, suffix: " dní" },
 ];
 
-function useReducedMotion(): boolean {
-  const [reduced, setReduced] = useState(false);
-  useEffect(() => {
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setReduced(mq.matches);
-    const handler = (e: MediaQueryListEvent) => setReduced(e.matches);
-    mq.addEventListener("change", handler);
-    return () => mq.removeEventListener("change", handler);
-  }, []);
-  return reduced;
-}
-
-function useInView<T extends HTMLElement>(threshold = 0.2) {
-  const ref = useRef<T>(null);
-  const [visible, setVisible] = useState(false);
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setVisible(true);
-          observer.unobserve(el);
-        }
-      },
-      { threshold }
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, [threshold]);
-  return { ref, visible };
-}
-
-function useCountUp(target: number, start: boolean, durationMs = 1200): number {
-  const [val, setVal] = useState(0);
-  useEffect(() => {
-    if (!start) return;
-    let raf = 0;
-    const t0 = performance.now();
-    const step = (t: number) => {
-      const p = Math.min(1, (t - t0) / durationMs);
-      const eased = 1 - Math.pow(1 - p, 3);
-      setVal(Math.round(target * eased));
-      if (p < 1) raf = requestAnimationFrame(step);
-    };
-    raf = requestAnimationFrame(step);
-    return () => cancelAnimationFrame(raf);
-  }, [target, start, durationMs]);
-  return val;
-}
+// SSR-safe useLayoutEffect: silences React's "useLayoutEffect on the server"
+// warning by falling back to useEffect during SSR (where layout effects are
+// a no-op anyway).
+const useIsoLayoutEffect =
+  typeof window === "undefined" ? useEffect : useLayoutEffect;
 
 export default function PpcStats() {
   return (
@@ -73,7 +29,7 @@ export default function PpcStats() {
       <div className="max-w-container mx-auto border-t border-l border-dark-line">
         <div className="grid grid-cols-2 md:grid-cols-4">
           {stats.map((s, i) => (
-            <StatCell key={s.label} stat={s} delay={i * 100} />
+            <StatCell key={s.label} stat={s} delay={i * 70} />
           ))}
         </div>
       </div>
@@ -82,25 +38,64 @@ export default function PpcStats() {
 }
 
 function StatCell({ stat, delay }: { stat: Stat; delay: number }) {
-  const { ref, visible } = useInView<HTMLDivElement>(0.25);
+  const { ref, visible } = useInView<HTMLDivElement>();
   const reducedMotion = useReducedMotion();
-  const animate = stat.countTo !== null && !reducedMotion;
-  const counted = useCountUp(stat.countTo ?? 0, visible && animate);
+
+  // RQ-12: server emits the final numeric value (no "0" in SSR HTML).
+  // After hydration we drop to 0 in a layout effect (runs before paint, so
+  // the user never sees the final value flash before the count-up starts).
+  // Non-animatable cells ("9 z 10") never reset.
+  const [val, setVal] = useState<number>(stat.countTo ?? 0);
+  const animKickoff = useRef(false);
+
+  useIsoLayoutEffect(() => {
+    if (stat.countTo === null || reducedMotion) return;
+    setVal(0);
+  }, [stat.countTo, reducedMotion]);
+
+  useEffect(() => {
+    if (stat.countTo === null || reducedMotion) return;
+    if (!visible || animKickoff.current) return;
+    animKickoff.current = true;
+
+    const target = stat.countTo;
+    const duration = 800;
+    let raf = 0;
+    const t0 = performance.now();
+    const step = (t: number) => {
+      const p = Math.min(1, (t - t0) / duration);
+      const eased = 1 - Math.pow(1 - p, 3); // ease-out cubic
+      setVal(Math.round(target * eased));
+      if (p < 1) raf = requestAnimationFrame(step);
+    };
+    raf = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(raf);
+  }, [visible, reducedMotion, stat.countTo]);
 
   const display =
-    stat.countTo === null ? stat.value : `${counted}${stat.suffix ?? ""}`;
+    stat.countTo === null ? stat.value : `${val}${stat.suffix ?? ""}`;
+
+  // Reserve horizontal room for the final string length so a count-up from
+  // "0" → "17" doesn't shift the label or the cell underneath.
+  const reservedCh = stat.value.length;
 
   return (
     <div
       ref={ref}
       className="border-r border-b border-dark-line px-5 py-7 md:px-6 md:py-8 min-h-[140px] md:min-h-[156px] flex flex-col justify-center"
       style={{
-        opacity: visible ? 1 : 0,
-        transform: visible ? "translateY(0)" : "translateY(10px)",
-        transition: `opacity 200ms ease ${delay}ms, transform 200ms ease ${delay}ms`,
+        opacity: visible || reducedMotion ? 1 : 0.25,
+        transform:
+          visible || reducedMotion ? "translateY(0)" : "translateY(10px)",
+        transition: reducedMotion
+          ? "none"
+          : `opacity 200ms ease-out ${delay}ms, transform 200ms ease-out ${delay}ms`,
       }}
     >
-      <div className="font-plex-mono text-dark-text text-[clamp(2rem,3.5vw,3.4rem)] leading-none tracking-tight whitespace-nowrap">
+      <div
+        className="font-plex-mono text-dark-text text-[clamp(2rem,3.5vw,3.4rem)] leading-none tracking-tight whitespace-nowrap nums-tabular"
+        style={{ minWidth: `${reservedCh}ch` }}
+      >
         {display}
       </div>
       <div className="font-plex-mono text-dark-secondary uppercase text-[11px] md:text-[12px] tracking-[0.12em] mt-3 leading-tight">
