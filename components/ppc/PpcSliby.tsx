@@ -8,7 +8,7 @@ export default function PpcSliby() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10 items-start">
           <div>
             <p className="font-plex-mono text-[12px] uppercase tracking-[0.15em] text-dark-secondary mb-3">
-              02
+              04
             </p>
             <h2 className="font-plex-serif text-dark-text text-[clamp(1.9rem,3.5vw,2.6rem)] leading-[1.15] mb-6">
               Co vám neslíbím

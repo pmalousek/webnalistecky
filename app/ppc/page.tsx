@@ -1,6 +1,7 @@
 import ConversionTracker from "@/components/ppc/ConversionTracker";
 import PpcHero from "@/components/ppc/PpcHero";
 import PpcStats from "@/components/ppc/PpcStats";
+import PpcMapa from "@/components/ppc/PpcMapa";
 import PpcTriMakleri from "@/components/ppc/PpcTriMakleri";
 import PpcSliby from "@/components/ppc/PpcSliby";
 import PpcProcPracuju from "@/components/ppc/PpcProcPracuju";
@@ -19,6 +20,7 @@ export default function PpcPage() {
       <ConversionTracker />
       <PpcHero />
       <PpcStats />
+      <PpcMapa />
       <PpcTriMakleri />
       <PpcSliby />
       <PpcProcPracuju />

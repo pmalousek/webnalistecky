@@ -26,11 +26,16 @@ const useIsoLayoutEffect =
 export default function PpcStats() {
   return (
     <section className="px-4 py-8 md:py-10">
-      <div className="max-w-container mx-auto border-t border-l border-dark-line">
-        <div className="grid grid-cols-2 md:grid-cols-4">
-          {stats.map((s, i) => (
-            <StatCell key={s.label} stat={s} delay={i * 70} />
-          ))}
+      <div className="max-w-container mx-auto">
+        <p className="font-plex-mono text-[12px] uppercase tracking-[0.15em] text-dark-secondary mb-3">
+          01
+        </p>
+        <div className="border-t border-l border-dark-line">
+          <div className="grid grid-cols-2 md:grid-cols-4">
+            {stats.map((s, i) => (
+              <StatCell key={s.label} stat={s} delay={i * 70} />
+            ))}
+          </div>
         </div>
       </div>
     </section>
