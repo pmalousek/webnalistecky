@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { IBM_Plex_Mono, IBM_Plex_Sans, IBM_Plex_Serif } from "next/font/google";
 import PpcTrackingScripts from "@/components/ppc/TrackingScripts";
+import ClarityScript from "@/components/ppc/ClarityScript";
 import PpcGrainOverlay from "@/components/ppc/PpcGrainOverlay";
 import PpcHeader from "@/components/ppc/PpcHeader";
 
@@ -43,6 +44,8 @@ export default function PpcLayout({
       className={`${plexSerif.variable} ${plexSans.variable} ${plexMono.variable} font-plex-sans bg-dark-bg text-dark-text min-h-screen relative isolate`}
     >
       <PpcGrainOverlay />
+      {/* Clarity: unconditional, NOT consent-gated (separate from PpcTrackingScripts). */}
+      <ClarityScript />
       <PpcTrackingScripts />
       <div className="relative z-10">
         <PpcHeader />
