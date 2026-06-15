@@ -7,6 +7,15 @@ declare global {
   interface Window {
     gtag?: (...args: unknown[]) => void;
     fbq?: (...args: unknown[]) => void;
+    // Sklik (Seznam) rc.js — loaded consent-gated in PpcTrackingScripts.
+    rc?: {
+      conversionHit?: (o: {
+        id: number;
+        value: number | null;
+        consent: 0 | 1;
+      }) => void;
+      retargetingHit?: (o: { rtgId: number; consent: 0 | 1 }) => void;
+    };
   }
 }
 
@@ -36,6 +45,15 @@ function fireGoogleAdsConversion(
     return;
   }
   window.gtag?.("event", "conversion", { send_to: `${id}/${label}` });
+}
+
+// Sklik (Seznam) conversion — fires alongside the Google Ads conversion on the
+// same lead actions (phone_click, qualify_lead). No-op until rc.js is loaded
+// (consent-gated in PpcTrackingScripts), so 0 requests before consent.
+function fireSklikConversion() {
+  const id = TRACKING.SKLIK_CONVERSION_ID;
+  if (!id) return;
+  window.rc?.conversionHit?.({ id: Number(id), value: null, consent: 1 });
 }
 
 /**
@@ -118,7 +136,10 @@ export function trackPhoneClick(
 
   const { adsConversion = true, labelPrefix = "ppc" } = options;
 
-  if (adsConversion) fireGoogleAdsConversion();
+  if (adsConversion) {
+    fireGoogleAdsConversion();
+    fireSklikConversion();
+  }
 
   // GA4 event — always fires (measurement).
   window.gtag?.("event", "phone_click", {
@@ -136,6 +157,7 @@ export function trackFormSubmit(location: CtaLocation) {
   if (typeof window === "undefined") return;
 
   fireGoogleAdsConversion();
+  fireSklikConversion();
 
   // GA4 event
   window.gtag?.("event", "qualify_lead", {

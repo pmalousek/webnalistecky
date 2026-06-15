@@ -31,15 +31,20 @@ export default function PpcTrackingScripts() {
       )}
 
       {TRACKING.SKLIK_CONVERSION_ID && (
-        <Script id="sklik-pixel" strategy="lazyOnload">
-          {`
-            var seznam_retargeting_id = '${TRACKING.SKLIK_CONVERSION_ID}';
-            (function(w,d,t,n){w[n]=w[n]||[];w[n].push({id:seznam_retargeting_id});
-            var s=d.createElement(t);s.async=!0;s.src='https://c.imedia.cz/js/retargeting.js';
-            var f=d.getElementsByTagName(t)[0];f.parentNode.insertBefore(s,f);}
-            )(window,document,'script','_sz_retargeting');
-          `}
-        </Script>
+        <Script
+          id="sklik-rc"
+          src="https://c.seznam.cz/js/rc.js"
+          strategy="lazyOnload"
+          onLoad={() => {
+            // Sklik retargeting (audience) page-view hit. This block only
+            // renders when ads consent is granted, so consent: 1 here.
+            // conversionHit (lead actions) is fired from ConversionTracker.
+            window.rc?.retargetingHit?.({
+              rtgId: Number(TRACKING.SKLIK_CONVERSION_ID),
+              consent: 1,
+            });
+          }}
+        />
       )}
     </>
   );
