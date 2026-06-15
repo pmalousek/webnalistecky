@@ -19,29 +19,77 @@ function getTrafficSourceType(): "ppc" | "letak" | "organic" {
   return "organic";
 }
 
-// Fail-loud: if either env var is unset, skip the Google Ads conversion
-// rather than firing gtag with `undefined/undefined` and silently losing
-// attribution data. Browser console will surface the misconfiguration.
-function fireGoogleAdsConversion() {
+// Fail-loud: if the conversion ID or label is unset, skip the Google Ads
+// conversion rather than firing gtag with `undefined/undefined` and silently
+// losing attribution data. Browser console surfaces the misconfiguration.
+// `label` defaults to the lead label (phone_click / qualify_lead / cta /
+// whatsapp); page_engagement passes the page-engagement label instead.
+function fireGoogleAdsConversion(
+  label: string | undefined = TRACKING.GOOGLE_ADS_LEAD_LABEL
+) {
   const id = TRACKING.GOOGLE_ADS_CONVERSION_ID;
-  const label = TRACKING.GOOGLE_ADS_LEAD_LABEL;
   if (!id || !label) {
     console.warn(
-      "[tracking] Google Ads env vars missing " +
-        "(NEXT_PUBLIC_GOOGLE_ADS_CONVERSION_ID / NEXT_PUBLIC_GOOGLE_ADS_LEAD_LABEL) — " +
-        "skipping conversion event."
+      "[tracking] Google Ads conversion skipped — missing " +
+        "NEXT_PUBLIC_GOOGLE_ADS_CONVERSION_ID or the conversion label env var."
     );
     return;
   }
   window.gtag?.("event", "conversion", { send_to: `${id}/${label}` });
 }
 
-/** Fire GA4 + Google Ads pageview on mount. */
+/**
+ * /ppc tracking hub. Mounted once on the /ppc page. Fires page_view on mount
+ * and wires the DOM-declared trackers via a single delegated click listener
+ * (data-track + data-location), plus a page-engagement signal (75% scroll OR
+ * 60s, once). gtag/fbq are optional-chained → before consent (gtag unloaded)
+ * everything is a no-op = 0 requests (hard consent gating, unchanged).
+ */
 export default function ConversionTracker() {
   useEffect(() => {
     window.gtag?.("event", "page_view", {
       send_to: TRACKING.GA4_MEASUREMENT_ID,
     });
+
+    // Delegated click handler for DOM-declared CTAs. Capture phase so it still
+    // runs when the target is an <a> that navigates (WhatsApp opens a new tab).
+    const onClick = (e: Event) => {
+      const target = e.target as Element | null;
+      const el = target?.closest?.("[data-track]");
+      if (!el) return;
+      const kind = el.getAttribute("data-track");
+      const location = el.getAttribute("data-location") || "unknown";
+      if (kind === "whatsapp_click") trackWhatsAppClick(location);
+      else if (kind === "cta_chci_znat") trackCtaClick(location);
+    };
+    document.addEventListener("click", onClick, true);
+
+    // Page engagement: fire once at 75% scroll depth OR 60s dwell.
+    let fired = false;
+    let timer: ReturnType<typeof setTimeout>;
+    function cleanupEngagement() {
+      clearTimeout(timer);
+      window.removeEventListener("scroll", onScroll);
+    }
+    function fireEngagement(trigger: "scroll_75" | "time_60s") {
+      if (fired) return;
+      fired = true;
+      cleanupEngagement();
+      trackPageEngagement(trigger);
+    }
+    function onScroll() {
+      const doc = document.documentElement;
+      const ratio =
+        (window.scrollY + window.innerHeight) / (doc.scrollHeight || 1);
+      if (ratio >= 0.75) fireEngagement("scroll_75");
+    }
+    timer = setTimeout(() => fireEngagement("time_60s"), 60000);
+    window.addEventListener("scroll", onScroll, { passive: true });
+
+    return () => {
+      document.removeEventListener("click", onClick, true);
+      cleanupEngagement();
+    };
   }, []);
 
   return null;
@@ -98,4 +146,55 @@ export function trackFormSubmit(location: CtaLocation) {
 
   // Meta Pixel
   window.fbq?.("track", "Lead");
+}
+
+/**
+ * WhatsApp link click. Wired via the delegated listener in ConversionTracker
+ * (data-track="whatsapp_click"). /ppc → adsConversion default (lead label).
+ */
+export function trackWhatsAppClick(location: string) {
+  if (typeof window === "undefined") return;
+
+  fireGoogleAdsConversion();
+
+  window.gtag?.("event", "whatsapp_click", {
+    event_category: "engagement",
+    event_label: `ppc_${location}`,
+    traffic_source_type: getTrafficSourceType(),
+  });
+
+  // Meta Pixel
+  window.fbq?.("track", "Contact");
+}
+
+/**
+ * "Chci znát cenu" CTA click (data-track="cta_chci_znat"). data-location
+ * distinguishes header vs sticky_bar. /ppc → adsConversion default (lead label).
+ */
+export function trackCtaClick(location: string) {
+  if (typeof window === "undefined") return;
+
+  fireGoogleAdsConversion();
+
+  window.gtag?.("event", "cta_chci_znat", {
+    event_category: "engagement",
+    event_label: `ppc_${location}`,
+    traffic_source_type: getTrafficSourceType(),
+  });
+}
+
+/**
+ * Page-engagement signal — fires once at 75% scroll OR 60s dwell. Uses the
+ * dedicated Google Ads page-engagement label (not the lead label).
+ */
+export function trackPageEngagement(trigger: "scroll_75" | "time_60s") {
+  if (typeof window === "undefined") return;
+
+  fireGoogleAdsConversion(TRACKING.GOOGLE_ADS_PAGE_ENGAGEMENT_LABEL);
+
+  window.gtag?.("event", "page_engagement", {
+    event_category: "engagement",
+    event_label: `ppc_${trigger}`,
+    traffic_source_type: getTrafficSourceType(),
+  });
 }
