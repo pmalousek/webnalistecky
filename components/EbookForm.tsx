@@ -14,6 +14,12 @@ const schema = z.object({
 
 type FormData = z.infer<typeof schema>;
 
+// Paper-card field styles (matches components/ppc/CallbackForm.tsx).
+const fieldClass =
+  "w-full bg-white border border-paper-ink rounded-none px-4 py-3 text-[16px] text-paper-ink placeholder:text-paper-secondary focus:outline-none focus:border-2 focus:border-paper-ink focus:px-[15px] focus:py-[11px] min-h-[48px] transition-colors";
+const labelClass =
+  "block font-plex-mono text-[12px] uppercase tracking-[0.15em] text-paper-secondary mb-2";
+
 export default function EbookForm() {
   const router = useRouter();
   const utmParams = useUtmParams();
@@ -46,12 +52,13 @@ export default function EbookForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4" noValidate>
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="grid gap-5 sm:grid-cols-2 sm:items-start"
+      noValidate
+    >
       <div>
-        <label
-          htmlFor="ebook-name"
-          className="block text-sm font-medium text-gray-700 mb-1"
-        >
+        <label htmlFor="ebook-name" className={labelClass}>
           Jméno *
         </label>
         <input
@@ -59,21 +66,18 @@ export default function EbookForm() {
           type="text"
           autoComplete="name"
           {...register("name")}
-          className="w-full border border-border-line rounded-none px-4 py-3 text-base text-gray-900 focus:outline-none focus:ring-2 focus:ring-brand min-h-[48px]"
+          className={fieldClass}
           placeholder="Jan Novák"
         />
         {errors.name && (
-          <p className="text-red-600 text-sm mt-1" role="alert">
+          <p className="text-stamp-paper text-[13px] mt-2" role="alert">
             {errors.name.message}
           </p>
         )}
       </div>
 
       <div>
-        <label
-          htmlFor="ebook-email"
-          className="block text-sm font-medium text-gray-700 mb-1"
-        >
+        <label htmlFor="ebook-email" className={labelClass}>
           E-mail *
         </label>
         <input
@@ -81,32 +85,33 @@ export default function EbookForm() {
           type="email"
           autoComplete="email"
           {...register("email")}
-          className="w-full border border-border-line rounded-none px-4 py-3 text-base text-gray-900 focus:outline-none focus:ring-2 focus:ring-brand min-h-[48px]"
+          className={fieldClass}
           placeholder="vas@email.cz"
         />
         {errors.email && (
-          <p className="text-red-600 text-sm mt-1" role="alert">
+          <p className="text-stamp-paper text-[13px] mt-2" role="alert">
             {errors.email.message}
           </p>
         )}
       </div>
 
       {submitError && (
-        <p className="text-red-600 text-sm" role="alert">
+        <p className="text-stamp-paper text-[14px] sm:col-span-2" role="alert">
           {submitError}
         </p>
       )}
 
-      <div>
+      <div className="sm:col-span-2">
         <button
           type="submit"
           disabled={isSubmitting}
-          className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3 bg-brand text-white font-medium rounded-none min-h-[48px] hover:bg-brand-dark transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+          className="w-full sm:w-auto inline-flex items-center justify-center px-7 py-4 bg-paper-ink text-paper font-plex-sans font-semibold text-[17px] rounded-none min-h-[48px] hover:-translate-y-px transition-transform disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:translate-y-0 focus:outline-none focus:ring-2 focus:ring-paper-ink focus:ring-offset-2 focus:ring-offset-paper"
         >
           {isSubmitting ? "Odesílám…" : "Stáhnout ebook zdarma"}
         </button>
-        <p className="mt-2 text-xs text-gray-600">
-          Odesláním souhlasíte se zpracováním e-mailu za účelem zaslání ebooku a následného marketingu.
+        <p className="mt-3 font-plex-sans text-[12px] text-paper-secondary leading-relaxed">
+          Odesláním souhlasíte se zpracováním e-mailu za účelem zaslání ebooku
+          a&nbsp;následného marketingu.
         </p>
       </div>
     </form>

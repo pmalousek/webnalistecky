@@ -54,9 +54,22 @@ function StatCell({ stat, delay }: { stat: Stat; delay: number }) {
   const animKickoff = useRef(false);
 
   useIsoLayoutEffect(() => {
-    if (stat.countTo === null || reducedMotion) return;
+    if (stat.countTo === null) return;
+    // `reducedMotion` is driven by a post-paint effect, so on this first commit
+    // it is still `false`. The old guard therefore reset val to 0 here, and the
+    // count-up — which is skipped under reduced motion — never restored the
+    // final value, leaving the cell stuck at 0. Read the media query
+    // synchronously so reduced-motion users get the final number immediately
+    // (no animation, no flash); everyone else still resets to 0 to count up.
+    const prefersReduced =
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (prefersReduced) {
+      setVal(stat.countTo);
+      return;
+    }
     setVal(0);
-  }, [stat.countTo, reducedMotion]);
+  }, [stat.countTo]);
 
   useEffect(() => {
     if (stat.countTo === null || reducedMotion) return;

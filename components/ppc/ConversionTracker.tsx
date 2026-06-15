@@ -49,21 +49,38 @@ export default function ConversionTracker() {
 
 export type CtaLocation = "hero" | "final_cta" | "sticky_bar" | "header";
 
+type PhoneClickOptions = {
+  /**
+   * Fire the marketing conversions (Google Ads lead conversion + Meta Pixel)
+   * alongside the GA4 event. Default `true` — /ppc keeps firing them.
+   * The root passes `false`: organic/leták phone clicks are measured in GA4
+   * only, so they don't pollute paid-campaign conversion data.
+   */
+  adsConversion?: boolean;
+  /** event_label prefix. Default `"ppc"`; root passes `"root"`. */
+  labelPrefix?: string;
+};
+
 /** Call on tel: link click. */
-export function trackPhoneClick(location: CtaLocation) {
+export function trackPhoneClick(
+  location: CtaLocation,
+  options: PhoneClickOptions = {}
+) {
   if (typeof window === "undefined") return;
 
-  fireGoogleAdsConversion();
+  const { adsConversion = true, labelPrefix = "ppc" } = options;
 
-  // GA4 event
+  if (adsConversion) fireGoogleAdsConversion();
+
+  // GA4 event — always fires (measurement).
   window.gtag?.("event", "phone_click", {
     event_category: "engagement",
-    event_label: `ppc_${location}`,
+    event_label: `${labelPrefix}_${location}`,
     traffic_source_type: getTrafficSourceType(),
   });
 
-  // Meta Pixel
-  window.fbq?.("track", "Contact");
+  // Meta Pixel — marketing conversion, /ppc only.
+  if (adsConversion) window.fbq?.("track", "Contact");
 }
 
 /** Call on successful callback form submission. */

@@ -6,6 +6,7 @@ import GoogleAnalytics from "@/components/shared/Analytics/GoogleAnalytics";
 import CookieConsent from "@/components/shared/CookieConsent";
 import FloatingVerzeLink from "@/components/FloatingVerzeLink";
 import { ConsentProvider } from "@/lib/consent";
+import { plexFontVariables } from "@/lib/fonts";
 import "./globals.css";
 
 const montserrat = Montserrat({
@@ -27,7 +28,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="cs" className={montserrat.variable}>
+    <html lang="cs" className={`${montserrat.variable} ${plexFontVariables}`}>
       <body className="font-sans antialiased bg-white text-gray-900">
         <ConsentProvider>
           <GoogleAnalytics />

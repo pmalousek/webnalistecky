@@ -21,6 +21,12 @@ const schema = z.object({
 
 type FormData = z.infer<typeof schema>;
 
+// Paper-card field styles (matches components/ppc/CallbackForm.tsx).
+const fieldClass =
+  "w-full bg-white border border-paper-ink rounded-none px-4 py-3 text-[16px] text-paper-ink placeholder:text-paper-secondary focus:outline-none focus:border-2 focus:border-paper-ink focus:px-[15px] focus:py-[11px] min-h-[48px] transition-colors";
+const labelClass =
+  "block font-plex-mono text-[12px] uppercase tracking-[0.15em] text-paper-secondary mb-2";
+
 export default function ContactForm() {
   const router = useRouter();
   const utmParams = useUtmParams();
@@ -53,12 +59,9 @@ export default function ContactForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4" noValidate>
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-5" noValidate>
       <div>
-        <label
-          htmlFor="contact-name"
-          className="block text-sm font-medium text-gray-700 mb-1"
-        >
+        <label htmlFor="contact-name" className={labelClass}>
           Jméno *
         </label>
         <input
@@ -66,21 +69,18 @@ export default function ContactForm() {
           type="text"
           autoComplete="name"
           {...register("name")}
-          className="w-full border border-border-line rounded-none px-4 py-3 text-base text-gray-900 focus:outline-none focus:ring-2 focus:ring-brand min-h-[48px]"
+          className={fieldClass}
           placeholder="Jan Novák"
         />
         {errors.name && (
-          <p className="text-red-600 text-sm mt-1" role="alert">
+          <p className="text-stamp-paper text-[13px] mt-2" role="alert">
             {errors.name.message}
           </p>
         )}
       </div>
 
       <div>
-        <label
-          htmlFor="contact-phone"
-          className="block text-sm font-medium text-gray-700 mb-1"
-        >
+        <label htmlFor="contact-phone" className={labelClass}>
           Telefon *
         </label>
         <input
@@ -89,21 +89,18 @@ export default function ContactForm() {
           inputMode="tel"
           autoComplete="tel"
           {...register("phone")}
-          className="w-full border border-border-line rounded-none px-4 py-3 text-base text-gray-900 focus:outline-none focus:ring-2 focus:ring-brand min-h-[48px]"
+          className={`${fieldClass} nums-tabular`}
           placeholder="777 123 456"
         />
         {errors.phone && (
-          <p className="text-red-600 text-sm mt-1" role="alert">
+          <p className="text-stamp-paper text-[13px] mt-2" role="alert">
             {errors.phone.message}
           </p>
         )}
       </div>
 
       <div>
-        <label
-          htmlFor="contact-email"
-          className="block text-sm font-medium text-gray-700 mb-1"
-        >
+        <label htmlFor="contact-email" className={labelClass}>
           E-mail *
         </label>
         <input
@@ -111,35 +108,31 @@ export default function ContactForm() {
           type="email"
           autoComplete="email"
           {...register("email")}
-          className="w-full border border-border-line rounded-none px-4 py-3 text-base text-gray-900 focus:outline-none focus:ring-2 focus:ring-brand min-h-[48px]"
+          className={fieldClass}
           placeholder="vas@email.cz"
         />
         {errors.email && (
-          <p className="text-red-600 text-sm mt-1" role="alert">
+          <p className="text-stamp-paper text-[13px] mt-2" role="alert">
             {errors.email.message}
           </p>
         )}
       </div>
 
       <div>
-        <label
-          htmlFor="contact-message"
-          className="block text-sm font-medium text-gray-700 mb-1"
-        >
-          Zpráva{" "}
-          <span className="text-gray-500 font-normal">(nepovinné)</span>
+        <label htmlFor="contact-message" className={labelClass}>
+          Zpráva <span className="lowercase tracking-normal">(nepovinné)</span>
         </label>
         <textarea
           id="contact-message"
           {...register("message")}
           rows={3}
-          className="w-full border border-border-line rounded-none px-4 py-3 text-base text-gray-900 focus:outline-none focus:ring-2 focus:ring-brand resize-none"
+          className={`${fieldClass} resize-none`}
           placeholder="O čem si chcete popovídat?"
         />
       </div>
 
       {submitError && (
-        <p className="text-red-600 text-sm" role="alert">
+        <p className="text-stamp-paper text-[14px]" role="alert">
           {submitError}
         </p>
       )}
@@ -148,11 +141,11 @@ export default function ContactForm() {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3 bg-brand text-white font-medium rounded-none min-h-[48px] hover:bg-brand-dark transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+          className="w-full inline-flex items-center justify-center px-7 py-4 bg-paper-ink text-paper font-plex-sans font-semibold text-[17px] rounded-none min-h-[48px] hover:-translate-y-px transition-transform disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:translate-y-0 focus:outline-none focus:ring-2 focus:ring-paper-ink focus:ring-offset-2 focus:ring-offset-paper"
         >
           {isSubmitting ? "Odesílám…" : "Ozvat se mi"}
         </button>
-        <p className="mt-2 text-xs text-gray-600">
+        <p className="mt-3 font-plex-sans text-[12px] text-paper-secondary leading-relaxed">
           Odesláním souhlasíte se zpracováním osobních údajů pro vyřízení
           vašeho dotazu.
         </p>
