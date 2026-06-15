@@ -16,7 +16,7 @@ export default function PpcTrackingScripts() {
   return (
     <>
       {TRACKING.META_PIXEL_ID && (
-        <Script id="meta-pixel" strategy="lazyOnload">
+        <Script id="meta-pixel" strategy="afterInteractive">
           {`
             !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){
             n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};
@@ -34,7 +34,7 @@ export default function PpcTrackingScripts() {
         <Script
           id="sklik-rc"
           src="https://c.seznam.cz/js/rc.js"
-          strategy="lazyOnload"
+          strategy="afterInteractive"
           onLoad={() => {
             // Sklik retargeting (audience) page-view hit. This block only
             // renders when ads consent is granted, so consent: 1 here.

@@ -49,7 +49,7 @@ export default function GoogleAnalytics() {
        * Consent Mode v2 — must initialize BEFORE gtag.js loads.
        * Default all denied; ConsentProvider updates on user grant.
        */}
-      <Script id="gtag-consent-init" strategy="lazyOnload">
+      <Script id="gtag-consent-init" strategy="afterInteractive">
         {`
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
@@ -66,10 +66,10 @@ export default function GoogleAnalytics() {
         <>
           <Script
             src={`https://www.googletagmanager.com/gtag/js?id=${TRACKING.GA4_MEASUREMENT_ID}`}
-            strategy="lazyOnload"
+            strategy="afterInteractive"
           />
 
-          <Script id="gtag-config" strategy="lazyOnload">
+          <Script id="gtag-config" strategy="afterInteractive">
             {`
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}
