@@ -44,6 +44,7 @@ export default function PpcHero() {
                   height={576}
                   quality={75}
                   priority
+                  fetchPriority="high"
                   sizes="(max-width: 768px) 280px, 460px"
                   className="w-full h-auto block"
                 />
