@@ -7,12 +7,17 @@ const TEL = "+420777759590";
 const TEL_DISPLAY = "777 759 590";
 
 function scrollToFirstFormOrAnchor() {
-  const forms = document.querySelectorAll<HTMLElement>('[data-form="callback"]');
+  const forms = Array.from(
+    document.querySelectorAll<HTMLElement>('[data-form="callback"]')
+  );
   if (forms.length === 0) {
     window.location.href = "/ppc#formular";
     return;
   }
-  forms[0].scrollIntoView({ behavior: "smooth", block: "center" });
+  // Mobile + desktop hero render separate forms (one is display:none). Target
+  // the visible one (offsetParent is null for hidden elements).
+  const target = forms.find((f) => f.offsetParent !== null) ?? forms[0];
+  target.scrollIntoView({ behavior: "smooth", block: "center" });
 }
 
 // Desktop-only header. Mobile keeps the bottom sticky bar instead of a

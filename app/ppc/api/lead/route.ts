@@ -8,6 +8,7 @@ const CZ_PHONE = /^(\+420|00420)?[ ]?[1-9][0-9]{2}[ ]?[0-9]{3}[ ]?[0-9]{3}$/;
 
 const schema = z.object({
   phone: z.string().regex(CZ_PHONE, "Neplatné telefonní číslo"),
+  name: z.string().max(120).optional(),
   utm_source: z.string().optional(),
   utm_medium: z.string().optional(),
   utm_campaign: z.string().optional(),
@@ -56,6 +57,7 @@ export async function POST(req: NextRequest) {
 
   const {
     phone,
+    name,
     utm_source,
     utm_medium,
     utm_campaign,
@@ -72,9 +74,10 @@ export async function POST(req: NextRequest) {
     await getResend().emails.send({
       from: "prodam@send.realitakbrno.cz",
       to: notificationEmail,
-      subject: `Nový lead z nekoupimbyt.cz/ppc — ${phone}`,
+      subject: `Nový lead z nekoupimbyt.cz/ppc — ${name ? `${name}, ` : ""}${phone}`,
       text: `Nový lead z PPC stránky.
 
+Jméno: ${name ?? "–"}
 Telefon: ${phone}
 Čas: ${timestamp}
 
