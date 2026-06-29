@@ -84,7 +84,7 @@ function Card({ card, index }: { card: CardData; index: number }) {
     <article
       ref={ref}
       style={{ ...style, willChange: "opacity, transform" }}
-      className="bg-paper text-paper-ink shadow-paper p-6 md:p-7 flex flex-col hover:-translate-y-0.5 transition-transform relative isolate"
+      className="bg-paper text-paper-ink shadow-paper p-6 md:p-7 flex flex-col cursor-default relative isolate"
     >
       <PaperGrain />
       <PaperPasparta />

@@ -167,7 +167,7 @@ export default function HeroLeadForm({ location }: { location: CtaLocation }) {
         </button>
 
         <p className="font-plex-sans text-[12px] text-paper-secondary text-center leading-snug">
-          Písemný odhad zdarma, bez závazku.
+          Písemný odhad zdarma, bez závazku · Ozvu se do 24 h.
         </p>
 
         {error && (

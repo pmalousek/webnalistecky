@@ -11,6 +11,18 @@ import { trackPhoneClick } from "./ConversionTracker";
 const TEL = "+420777759590";
 const TEL_DISPLAY = "777 759 590";
 
+// A/B test (mobile hero only — WS2 is mobile-scoped). Flip H1_VARIANT to swap
+// the headline between the current question and a benefit-led variant. Both
+// strings live here so the switch is a one-line change.   = non-breaking
+// space (keeps "v Brně" / "a okolí" from wrapping mid-phrase).
+const H1_VARIANT: "question" | "benefit" = "question";
+const H1_QUESTION = "Prodáváte byt nebo dům v Brně a okolí?";
+const H1_BENEFIT = "Zjistěte, za kolik váš byt/dům v Brně reálně prodáte.";
+
+// Trust badges shown right above the lead form so credibility is visible
+// without scrolling (mirrors the numbers in PpcStats, which sit below the fold).
+const HERO_TRUST = ["17 let praxe", "700+ prodejů", "průměr 35 dní"];
+
 export default function PpcHero() {
   return (
     <section id="formular" className="px-4 pt-6 pb-10 md:pt-16 md:pb-16">
@@ -24,7 +36,7 @@ export default function PpcHero() {
           <div className="flex items-start gap-3 mb-4">
             <div className="flex-1 min-w-0">
               <h1 className="font-plex-serif text-[clamp(1.6rem,7vw,2.1rem)] leading-[1.1] text-dark-text mb-2.5">
-                Prodáváte byt nebo dům v&nbsp;Brně a&nbsp;okolí?
+                {H1_VARIANT === "benefit" ? H1_BENEFIT : H1_QUESTION}
               </h1>
               <p className="font-plex-sans text-[14px] leading-[1.5] text-dark-text">
                 Většina makléřů cenu nadsadí, aby získala zakázku. Já vám řeknu{" "}
@@ -52,6 +64,19 @@ export default function PpcHero() {
               </div>
             </div>
           </div>
+
+          <ul className="flex flex-wrap items-center gap-x-2.5 gap-y-1 mb-2.5 font-plex-mono text-[11px] uppercase tracking-[0.08em] text-dark-secondary">
+            {HERO_TRUST.map((item, i) => (
+              <li key={item} className="inline-flex items-center gap-2.5">
+                {i > 0 && (
+                  <span aria-hidden className="text-dark-line">
+                    ·
+                  </span>
+                )}
+                {item}
+              </li>
+            ))}
+          </ul>
 
           <div>
             <HeroLeadForm location="hero" />
