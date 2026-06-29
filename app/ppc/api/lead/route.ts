@@ -14,23 +14,59 @@ const schema = z.object({
   utm_campaign: z.string().optional(),
   utm_content: z.string().optional(),
   utm_term: z.string().optional(),
+  // Ad-platform click IDs — Google Ads auto-tagging (gclid/gbraid/wbraid) and
+  // Meta (fbclid). These carry the real keyword/campaign attribution.
+  gclid: z.string().optional(),
+  gbraid: z.string().optional(),
+  wbraid: z.string().optional(),
+  fbclid: z.string().optional(),
   referrer: z.string().optional(),
 });
 
-function getRatelimit(): Ratelimit | null {
+function getRedis(): Redis | null {
   const url = process.env.KV_REST_API_URL;
   const token = process.env.KV_REST_API_TOKEN;
   if (!url || !token) return null;
+  return new Redis({ url, token });
+}
+
+function getRatelimit(redis: Redis | null): Ratelimit | null {
+  if (!redis) return null;
   return new Ratelimit({
-    redis: new Redis({ url, token }),
+    redis,
     limiter: Ratelimit.slidingWindow(3, "10 m"),
     prefix: "ppc_lead",
   });
 }
 
+/**
+ * Failsafe persistence so a lead is never lost if Resend is down. Best-effort:
+ * pushes the lead record onto a capped Redis list (LPUSH + LTRIM) and always
+ * logs it structured to stdout (Vercel logs). Never throws — a failure here
+ * must not break the request.
+ */
+async function persistLead(
+  redis: Redis | null,
+  record: Record<string, unknown>
+): Promise<boolean> {
+  // Structured stdout line — searchable in Vercel logs even with no Redis.
+  console.log(`[ppc_lead] ${JSON.stringify(record)}`);
+  if (!redis) return false;
+  try {
+    await redis.lpush("ppc_lead:log", JSON.stringify(record));
+    await redis.ltrim("ppc_lead:log", 0, 999); // keep the last 1000 leads
+    return true;
+  } catch (err) {
+    console.error("[ppc_lead] Redis persist failed:", err);
+    return false;
+  }
+}
+
 export async function POST(req: NextRequest) {
+  const redis = getRedis();
+
   // Rate limiting — max 3 submissions per IP per 10 minutes
-  const rl = getRatelimit();
+  const rl = getRatelimit(redis);
   if (rl) {
     const ip =
       req.headers.get("x-forwarded-for")?.split(",")[0].trim() ?? "127.0.0.1";
@@ -63,6 +99,10 @@ export async function POST(req: NextRequest) {
     utm_campaign,
     utm_content,
     utm_term,
+    gclid,
+    gbraid,
+    wbraid,
+    fbclid,
     referrer,
   } = result.data;
 
@@ -70,6 +110,25 @@ export async function POST(req: NextRequest) {
     process.env.NOTIFICATION_EMAIL ?? "info@realitakbrno.cz";
   const timestamp = new Date().toISOString();
 
+  // Failsafe first: capture the lead (Redis + stdout) before the email send,
+  // so it survives even if Resend is down. Best-effort, never throws.
+  const persisted = await persistLead(redis, {
+    phone,
+    name: name ?? null,
+    timestamp,
+    utm_source: utm_source ?? null,
+    utm_medium: utm_medium ?? null,
+    utm_campaign: utm_campaign ?? null,
+    utm_content: utm_content ?? null,
+    utm_term: utm_term ?? null,
+    gclid: gclid ?? null,
+    gbraid: gbraid ?? null,
+    wbraid: wbraid ?? null,
+    fbclid: fbclid ?? null,
+    referrer: referrer ?? null,
+  });
+
+  let emailOk = false;
   try {
     await getResend().emails.send({
       from: "prodam@send.realitakbrno.cz",
@@ -81,15 +140,26 @@ Jméno: ${name ?? "–"}
 Telefon: ${phone}
 Čas: ${timestamp}
 
+— Atribuce —
 UTM source: ${utm_source ?? "–"}
 UTM medium: ${utm_medium ?? "–"}
 UTM campaign: ${utm_campaign ?? "–"}
 UTM content: ${utm_content ?? "–"}
 UTM term: ${utm_term ?? "–"}
+gclid: ${gclid ?? "–"}
+gbraid: ${gbraid ?? "–"}
+wbraid: ${wbraid ?? "–"}
+fbclid: ${fbclid ?? "–"}
 Referrer: ${referrer ?? "–"}`,
     });
+    emailOk = true;
   } catch (err) {
     console.error("Resend error (ppc lead):", err);
+  }
+
+  // The lead is lost only if BOTH channels fail. If Redis captured it, the
+  // user still gets a confirmation and Pavel can recover it from the log.
+  if (!emailOk && !persisted) {
     return NextResponse.json({ error: "Email failed" }, { status: 500 });
   }
 

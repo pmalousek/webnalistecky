@@ -3,12 +3,19 @@
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 
+// utm_* (manual tagging) + ad-platform click IDs. Google Ads auto-tagging sends
+// gclid (or gbraid/wbraid on iOS app/web-to-app) instead of utm_*, so without
+// these the real paid leads arrive with no source. fbclid covers Meta.
 const UTM_KEYS = [
   "utm_source",
   "utm_medium",
   "utm_campaign",
   "utm_content",
   "utm_term",
+  "gclid",
+  "gbraid",
+  "wbraid",
+  "fbclid",
 ] as const;
 
 type UtmKey = (typeof UTM_KEYS)[number];
