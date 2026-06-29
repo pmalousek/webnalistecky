@@ -11,7 +11,9 @@ import PaperGrain, { PaperPasparta } from "./PaperGrain";
 const CZ_PHONE = /^(\+420|00420)?[ ]?[1-9][0-9]{2}[ ]?[0-9]{3}[ ]?[0-9]{3}$/;
 
 const schema = z.object({
-  name: z.string().min(2, "Zadejte jméno"),
+  // Name is optional to cut friction (mobile is 82 % of traffic). Phone is the
+  // only required field; a filled-in name still flows through to the lead email.
+  name: z.string().max(120).optional(),
   phone: z
     .string()
     .regex(CZ_PHONE, "Zadejte platné CZ číslo (např. 777 123 456)"),
@@ -67,6 +69,8 @@ export default function HeroLeadForm({ location }: { location: CtaLocation }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...data,
+          // Drop an empty optional name so the email shows "–", not a blank.
+          name: data.name?.trim() || undefined,
           ...utmParams,
           referrer: typeof document !== "undefined" ? document.referrer : "",
         }),
@@ -119,17 +123,12 @@ export default function HeroLeadForm({ location }: { location: CtaLocation }) {
                 id={`name-${location}`}
                 type="text"
                 autoComplete="name"
-                placeholder="Jméno"
-                aria-label="Jméno"
+                placeholder="Jméno (nepovinné)"
+                aria-label="Jméno (nepovinné)"
                 className={inputClass}
               />
             )}
           />
-          {errors.name && (
-            <p className="text-stamp-paper text-[12px] mt-1" role="alert">
-              {errors.name.message}
-            </p>
-          )}
         </div>
 
         <div>
